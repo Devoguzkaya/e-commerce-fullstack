@@ -11,20 +11,18 @@ const FeaturedProduct = () => {
 
                     {/* Left Side: Content */}
                     <div className="w-full lg:w-[37%] flex flex-col justify-center items-center text-center p-10 lg:py-20 bg-[#FAFAFA]">
-                        <h3 className="font-['Montserrat'] font-bold text-[24px] lg:text-[40px] leading-[32px] lg:leading-[50px] tracking-[0.1px] text-[#252B42] mb-4">
+                        <h3 className="font-bold text-[24px] lg:text-[40px] leading-[32px] lg:leading-[50px] tracking-[0.1px] text-[#252B42] mb-4">
                             {sectionTitle}
                         </h3>
-                        <p className="font-['Montserrat'] font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#737373] mb-8 max-w-[350px]">
+                        <p className="font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#737373] mb-8 max-w-[350px]">
                             {description}
                         </p>
 
-                        {/* Product Image */}
                         <div className="w-[180px] lg:w-[220px] mb-6 relative">
                             <img src={product.image} alt={product.title} className="w-full h-auto object-contain hover:scale-105 transition-transform duration-300" />
                         </div>
 
-                        {/* Details */}
-                        <h5 className="font-['Montserrat'] font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#252B42] mb-2">
+                        <h5 className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#252B42] mb-2">
                             {product.title}
                         </h5>
 

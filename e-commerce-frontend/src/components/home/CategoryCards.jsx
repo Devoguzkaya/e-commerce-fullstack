@@ -2,8 +2,6 @@ import React from 'react';
 import { categoriesData } from '../../data/categories';
 
 const CategoryCards = () => {
-    // Artık veriler dışarıdan (sahte veritabanından) geliyor.
-    // İleride burayı: const cards = useSelector(state => state.categories) yapacağız.
     const cards = categoriesData;
 
     return (
@@ -15,13 +13,13 @@ const CategoryCards = () => {
                         <div key={card.id} className="bg-white h-[230px] relative shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
 
                             <div className="absolute inset-0 z-10 flex flex-col justify-center items-start pl-8 pr-32">
-                                <h6 className="font-['Montserrat'] font-normal text-sm text-[#737373] tracking-[0.2px] mb-2">
+                                <h6 className="font-normal text-sm text-[#737373] tracking-[0.2px] mb-2">
                                     {card.subtitle}
                                 </h6>
-                                <h2 className="font-['Montserrat'] font-bold text-2xl text-[#252B42] leading-8 tracking-[0.1px] mb-2 whitespace-pre-line">
+                                <h2 className="font-bold text-2xl text-[#252B42] leading-8 tracking-[0.1px] mb-2 whitespace-pre-line">
                                     {card.title}
                                 </h2>
-                                <h6 className="font-['Montserrat'] font-normal text-xs text-[#737373] tracking-[0.2px] cursor-pointer hover:text-[#252B42] transition-colors pb-1 border-b border-transparent hover:border-[#252B42]">
+                                <h6 className="font-normal text-xs text-[#737373] tracking-[0.2px] cursor-pointer hover:text-[#252B42] transition-colors pb-1 border-b border-transparent hover:border-[#252B42]">
                                     Explore Items
                                 </h6>
                             </div>
