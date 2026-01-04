@@ -1,1 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap');
 @import "tailwindcss";
+
+
+
+html,
+body {
+  overflow-x: hidden;
+}
+
+@theme {
+  /* Font Ayarı */
+  --font-sans: "Montserrat", sans-serif;
+
+  /* Renk Paleti (Figma'dan) */
+  --color-primary: #23A6F0;
+  /* Ana Mavi Buton vs */
+  --color-secondary: #23856D;
+  /* Yeşil (Genelde fiyat veya başarı) */
+
+  --color-text-title: #252B42;
+  /* Koyu Başlıklar (H1, H2...) */
+  --color-text-secondary: #737373;
+  /* Gri Açıklama Yazıları */
+  --color-text-light: #FFFFFF;
+  /* Beyaz yazılar */
+
+  --color-bg-light: #FAFAFA;
+  /* Çok açık gri arka plan */
+  --color-border-gray: #E8E8E8;
+  /* İnce gri çizgiler */
+}
