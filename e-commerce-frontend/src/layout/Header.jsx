@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 import { Search, ShoppingCart, User, Menu, Phone, Mail, Instagram, Youtube, Facebook, Twitter, Heart, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import md5 from 'md5';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
+    const user = useSelector(state => state.client.user);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -93,18 +96,48 @@ const Header = () => {
 
                         {/* Mobile Menu Extra Links if needed */}
                         <div className="flex md:hidden flex-col items-center gap-4 mt-4 text-[#23A6F0]">
-                            <Link to="/login" className="flex items-center gap-2 text-[18px] font-normal leading-[24px]">
-                                <User className="w-6 h-6" /> Login / Register
-                            </Link>
+                            {user?.name ? (
+                                <div className="flex items-center gap-2 text-[18px] font-normal leading-[24px]">
+                                    {user.email ? (
+                                        <img
+                                            src={`https://www.gravatar.com/avatar/${md5(user.email)}?s=24&d=mp`}
+                                            alt="User Avatar"
+                                            className="w-6 h-6 rounded-full"
+                                        />
+                                    ) : (
+                                        <User className="w-6 h-6" />
+                                    )}
+                                    <span>{user.name}</span>
+                                </div>
+                            ) : (
+                                <Link to="/login" className="flex items-center gap-2 text-[18px] font-normal leading-[24px]">
+                                    <User className="w-6 h-6" /> Login / Register
+                                </Link>
+                            )}
                         </div>
                     </nav>
 
                     {/* Right Section (Desktop Only) */}
                     <div className="hidden md:flex items-center space-x-[30px] text-[#23A6F0]">
-                        <button className="flex items-center font-bold text-sm hover:text-blue-600 transition-colors">
-                            <User className="w-4 h-4 mr-[5px]" />
-                            Login / Register
-                        </button>
+                        {user?.name ? (
+                            <div className="flex items-center font-bold text-sm">
+                                {user.email ? (
+                                    <img
+                                        src={`https://www.gravatar.com/avatar/${md5(user.email)}?s=32&d=mp`}
+                                        alt="User Avatar"
+                                        className="w-8 h-8 rounded-full mr-[5px]"
+                                    />
+                                ) : (
+                                    <User className="w-4 h-4 mr-[5px]" />
+                                )}
+                                <span>{user.name}</span>
+                            </div>
+                        ) : (
+                            <Link to="/login" className="flex items-center font-bold text-sm hover:text-blue-600 transition-colors">
+                                <User className="w-4 h-4 mr-[5px]" />
+                                Login / Register
+                            </Link>
+                        )}
                         <div className="flex items-center space-x-[30px]">
                             <button className="hover:text-blue-600 transition-colors"><Search className="w-4 h-4" /></button>
                             <button className="flex items-center hover:text-blue-600 transition-colors">
