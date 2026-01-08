@@ -7,6 +7,14 @@ export const loginUser = createAsyncThunk(
     async (credentials, { rejectWithValue }) => {
         try {
             const response = await api.post('/login', credentials);
+            if (response.data.token) {
+                localStorage.setItem("token", response.data.token);
+                api.defaults.headers.common['Authorization'] = response.data.token;
+            } else if (response.data.user && response.data.user.token) {
+                // Fallback if token is inside user object
+                localStorage.setItem("token", response.data.user.token);
+                api.defaults.headers.common['Authorization'] = response.data.user.token;
+            }
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data || 'Login failed');

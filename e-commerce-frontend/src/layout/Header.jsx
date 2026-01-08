@@ -1,14 +1,22 @@
 import React, { useState } from 'react';
 import { Search, ShoppingCart, User, Menu, Phone, Mail, Instagram, Youtube, Facebook, Twitter, Heart, ChevronDown } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import md5 from 'md5';
+
+import { setUser } from '../store/slices/clientSlice';
+import { clearCart } from '../store/slices/shoppingCartSlice';
+import api from '../api/axios';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
     const user = useSelector(state => state.client.user);
     const categories = useSelector(state => state.product.categories);
+    const cart = useSelector(state => state.shoppingCart.cart); // Optimized selector
 
     // Group Categories
     const womenCategories = categories.filter(c => c.code.startsWith('k:'));
@@ -16,6 +24,14 @@ const Header = () => {
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
+    };
+
+    const handleLogout = () => {
+        dispatch(setUser({}));
+        dispatch(clearCart());
+        localStorage.removeItem("token");
+        delete api.defaults.headers.common['Authorization'];
+        navigate("/");
     };
 
     const getLinkClass = (path) => {
@@ -175,6 +191,7 @@ const Header = () => {
                                 <div className="absolute right-0 top-full pt-2 hidden group-hover:block z-50 min-w-[200px]">
                                     <div className="bg-white shadow-lg rounded-md border border-gray-100 py-2 flex flex-col items-start text-left">
                                         <Link to="/previous-orders" className="w-full px-4 py-2 hover:bg-gray-50 text-[#737373] hover:text-[#23A6F0] text-sm font-normal">Siparişlerim</Link>
+                                        <button onClick={handleLogout} className="w-full px-4 py-2 hover:bg-gray-50 text-[#737373] hover:text-[#23A6F0] text-sm font-normal text-left border-t border-gray-100">Çıkış Yap</button>
                                     </div>
                                 </div>
                             </div>
@@ -192,18 +209,18 @@ const Header = () => {
                                 <Link to="/cart" className="flex items-center hover:text-blue-600 transition-colors py-4">
                                     <ShoppingCart className="w-4 h-4" />
                                     <span className="ml-1 text-xs font-normal">
-                                        {useSelector(state => state.shoppingCart.cart.reduce((sum, item) => sum + item.count, 0))}
+                                        {cart.reduce((sum, item) => sum + item.count, 0)}
                                     </span>
                                 </Link>
 
                                 {/* Dropdown Body */}
                                 <div className="absolute right-0 top-[80%] w-[320px] bg-white shadow-xl rounded-md overflow-hidden hidden group-hover:block border border-gray-100 animate-fade-in z-50">
                                     <h4 className="p-4 font-bold text-gray-700 border-b">
-                                        Sepetim ({useSelector(state => state.shoppingCart.cart.reduce((sum, item) => sum + item.count, 0))} Ürün)
+                                        Sepetim ({cart.reduce((sum, item) => sum + item.count, 0)} Ürün)
                                     </h4>
 
                                     <div className="max-h-[300px] overflow-y-auto">
-                                        {useSelector(state => state.shoppingCart.cart).map((item, idx) => (
+                                        {cart.map((item, idx) => (
                                             <div key={idx} className="flex gap-4 p-4 border-b hover:bg-gray-50">
                                                 <div className="w-[60px] h-[80px] rounded object-cover overflow-hidden flex-shrink-0 border bg-gray-100">
                                                     <img
@@ -223,7 +240,7 @@ const Header = () => {
                                                 </div>
                                             </div>
                                         ))}
-                                        {useSelector(state => state.shoppingCart.cart).length === 0 && (
+                                        {cart.length === 0 && (
                                             <div className="p-8 text-center text-gray-500 text-sm">Sepetiniz boş</div>
                                         )}
                                     </div>
@@ -232,7 +249,7 @@ const Header = () => {
                                         <Link to="/cart" className="flex-1 py-3 border border-gray-300 rounded text-center text-sm font-bold text-gray-700 hover:bg-gray-50">
                                             Sepete Git
                                         </Link>
-                                        <Link to="/checkout" className="flex-1 py-3 bg-[#ER7C40] bg-orange-500 rounded text-center text-sm font-bold text-white hover:bg-orange-600">
+                                        <Link to="/order" className="flex-1 py-3 bg-[#F27A1A] rounded text-center text-sm font-bold text-white hover:bg-orange-600">
                                             Siparişi Tamamla
                                         </Link>
                                     </div>

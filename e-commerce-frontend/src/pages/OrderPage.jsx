@@ -152,17 +152,26 @@ const OrderPage = () => {
     const grandTotal = subtotal + shippingCost;
 
     // Effects
+    // Check Auth
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
             navigate("/login", { state: { from: location } });
-        } else {
-            dispatch(fetchAddressList());
+        }
+    }, [navigate, location]);
+
+    // Data Fetching
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            if (activeStep === 1 && addressList.length === 0) {
+                dispatch(fetchAddressList());
+            }
             if (activeStep === 2) {
                 dispatch(fetchCardList());
             }
         }
-    }, [navigate, location, dispatch, activeStep]);
+    }, [dispatch, activeStep, addressList.length]);
 
     // Handlers
     const handleAddSubmit = (data) => {
