@@ -3,11 +3,10 @@ import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
-const MainLayout = () => {
+const PageContent = () => {
     return (
         <div className="flex flex-col min-h-screen">
             <Header />
-            {/* Header artık fixed değil, akışta */}
             <main className="flex-grow">
                 <Outlet />
             </main>
@@ -16,4 +15,4 @@ const MainLayout = () => {
     );
 };
 
-export default MainLayout;
+export default PageContent;

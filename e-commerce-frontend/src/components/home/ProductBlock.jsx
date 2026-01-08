@@ -1,4 +1,4 @@
-import React from 'react';
+import ProductCard from '../ProductCard';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const ProductBlock = ({ sectionData, products, reverse = false }) => {
@@ -55,33 +55,7 @@ const ProductBlock = ({ sectionData, products, reverse = false }) => {
 
                         <div className="flex flex-wrap justify-between gap-y-10">
                             {visibleProducts.map((product) => (
-                                <div key={product.id} className="bg-white flex flex-col items-center group shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 w-full md:w-[48%] lg:w-[30%] h-auto lg:h-[324px]">
-
-                                    <div className="w-full h-[162px] overflow-hidden relative">
-                                        <img
-                                            src={product.image}
-                                            alt={product.title}
-                                            className="w-full h-full object-contain transform transition-transform duration-300"
-                                        />
-                                    </div>
-
-                                    <div className="text-center pt-[25px] pb-[35px] px-[25px] flex flex-col items-center gap-[10px] w-full">
-                                        <h5 className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#252B42] line-clamp-1 w-full">
-                                            {product.title}
-                                        </h5>
-                                        <p className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373] line-clamp-1 w-full">
-                                            {product.category}
-                                        </p>
-                                        <div className="flex justify-center gap-[5px]">
-                                            <span className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#BDBDBD]">
-                                                {product.price}
-                                            </span>
-                                            <span className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#23856D]">
-                                                {product.salePrice}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <ProductCard key={product.id} product={product} />
                             ))}
                         </div>
 
