@@ -1,38 +1,58 @@
 import React, { useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProduct } from '../store/slices/productSlice';
+import { ChevronRight, ArrowLeft } from 'lucide-react';
 
-import { singleProduct, shopProducts } from '../data/shopData';
+import { shopProducts } from '../data/shopData';
 import ProductHero from '../components/product/ProductHero';
 import ProductTabs from '../components/product/ProductTabs';
 import ProductCard from '../components/ProductCard';
 import Clients from '../components/home/Clients';
 
 export default function ProductDetailPage() {
-    const { productId } = useParams();
+    const { productId, id } = useParams();
+    const targetId = productId || id;
 
-    // In a real app, fetch product by ID. 
-    // Here we just use the mocked singleProduct for the Hero, 
-    // and shopProducts for the "Bestsellers" section.
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { activeProduct, fetchState } = useSelector(state => state.product);
 
-    // Scroll to top on mount
+    // Fetch Product Logic
     useEffect(() => {
-        window.scrollTo(0, 0);
-    }, [productId]);
+        if (targetId) {
+            dispatch(fetchProduct(targetId));
+            window.scrollTo(0, 0);
+        }
+    }, [targetId, dispatch]);
+
+    // Loading State
+    if (fetchState === 'FETCHING' || !activeProduct) {
+        return (
+            <div className="min-h-screen flex justify-center items-center">
+                <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+            </div>
+        );
+    }
 
     return (
         <div className="bg-white">
             {/* Breadcrumb */}
             <div className="bg-[#FAFAFA] py-6">
                 <div className="container mx-auto px-4 flex items-center gap-[15px]">
+                    <button onClick={() => navigate(-1)} className="text-[#BDBDBD] hover:text-[#252B42] transition-colors">
+                        <ArrowLeft size={20} />
+                    </button>
                     <Link to="/" className="font-bold text-[14px] leading-[24px] text-[#252B42]">Home</Link>
                     <ChevronRight size={14} className="text-[#BDBDBD]" />
                     <Link to="/shop" className="font-bold text-[14px] leading-[24px] text-[#BDBDBD]">Shop</Link>
+                    <ChevronRight size={14} className="text-[#BDBDBD]" />
+                    <span className="font-bold text-[14px] leading-[24px] text-[#252B42] truncate max-w-[200px]">{activeProduct.name}</span>
                 </div>
             </div>
 
             {/* Product Hero (Descriptive top section) */}
-            <ProductHero product={singleProduct} />
+            <ProductHero product={activeProduct} />
 
             {/* Tabs (Description, details, reviews) */}
             <ProductTabs />
@@ -49,7 +69,7 @@ export default function ProductDetailPage() {
                         {shopProducts.slice(0, 8).map((product) => (
                             <div key={product.id} className="bg-white flex flex-col items-center group shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 w-[239px] h-full">
                                 {/* Image Container: Fixed Height 280px per Figma */}
-                                <Link to={`/shop/${product.id}`} className="w-full h-[280px] overflow-hidden relative block">
+                                <Link to={`/product/${product.id}`} className="w-full h-[280px] overflow-hidden relative block">
                                     <img
                                         src={product.image}
                                         alt={product.title}

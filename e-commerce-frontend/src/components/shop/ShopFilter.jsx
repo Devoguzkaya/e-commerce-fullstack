@@ -1,14 +1,17 @@
 import React from 'react';
 import { LayoutGrid, List, ChevronDown } from 'lucide-react';
 
-const ShopFilter = ({ viewMode, setViewMode, sort, setSort }) => {
+const ShopFilter = ({ viewMode, setViewMode, sort, setSort, filter, setFilter }) => {
+    // Helper to handle debounce could be here, but simpler to pass pure state loop
+    // Client wants "on state change", so direct onChange is fine for now
+
     return (
         <div className="bg-white py-6 mb-8">
             <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
 
                 {/* Sol: Sonuç Bilgisi */}
                 <div className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">
-                    Showing all 12 results
+                    Showing results
                 </div>
 
                 {/* Orta: Görünüm Seçenekleri */}
@@ -32,15 +35,26 @@ const ShopFilter = ({ viewMode, setViewMode, sort, setSort }) => {
 
                 {/* Sağ: Filtreleme ve Sıralama */}
                 <div className="flex items-center gap-[15px]">
+                    {/* Filter Input */}
+                    <input
+                        type="text"
+                        placeholder="Filter..."
+                        value={filter}
+                        onChange={(e) => setFilter(e.target.value)}
+                        className="border border-[#DDDDDD] bg-[#F9F9F9] rounded-[5px] px-[15px] py-[10px] font-normal text-[14px] leading-[28px] tracking-[0.2px] text-[#737373] focus:outline-none focus:border-[#23A6F0]"
+                    />
+
                     <div className="relative">
                         <select
                             value={sort}
                             onChange={(e) => setSort(e.target.value)}
                             className="appearance-none border border-[#DDDDDD] bg-[#F9F9F9] rounded-[5px] px-[18px] py-[10px] pr-[35px] font-normal text-[14px] leading-[28px] tracking-[0.2px] text-[#737373] focus:outline-none focus:border-[#23A6F0] cursor-pointer"
                         >
-                            <option value="popularity">Popularity</option>
-                            <option value="price-asc">Price: Low to High</option>
-                            <option value="price-desc">Price: High to Low</option>
+                            <option value="">Sort By</option>
+                            <option value="price:asc">Price: Low to High</option>
+                            <option value="price:desc">Price: High to Low</option>
+                            <option value="rating:asc">Rating: Low to High</option>
+                            <option value="rating:desc">Rating: High to Low</option>
                         </select>
                         <ChevronDown size={14} className="absolute right-[14px] top-1/2 -translate-y-1/2 text-[#737373] pointer-events-none" />
                     </div>

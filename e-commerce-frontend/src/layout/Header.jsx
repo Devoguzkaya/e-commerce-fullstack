@@ -8,6 +8,11 @@ const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const location = useLocation();
     const user = useSelector(state => state.client.user);
+    const categories = useSelector(state => state.product.categories);
+
+    // Group Categories
+    const womenCategories = categories.filter(c => c.code.startsWith('k:'));
+    const menCategories = categories.filter(c => c.code.startsWith('e:'));
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -82,11 +87,44 @@ const Header = () => {
                     <nav className={`${isMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row items-center gap-4 md:gap-[15px] mt-8 md:mt-0 w-full md:w-auto`}>
                         <Link to="/" className={getLinkClass('/')}>Home</Link>
 
-                        {/* Shop Dropdown Trigger (Visual Only for now) */}
-                        <Link to="/shop" className={`${getLinkClass('/shop')} flex items-center gap-2`}>
-                            Shop
-                            {/* <ChevronDown size={12} className="hidden md:block" /> */}
-                        </Link>
+                        {/* Shop Dropdown Trigger */}
+                        <div className="relative group z-50">
+                            <Link to="/shop" className={`${getLinkClass('/shop')} flex items-center gap-2 py-4`}>
+                                Shop
+                                <ChevronDown size={12} className="hidden md:block" />
+                            </Link>
+
+                            {/* Dropdown Menu */}
+                            <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 px-6 min-w-[400px] hidden group-hover:flex gap-8 border border-gray-100 transform transition-all duration-200">
+                                {/* Women Column */}
+                                <div className="flex flex-col gap-2">
+                                    <h5 className="font-bold text-[#252B42] text-lg border-b pb-2 mb-2 w-[150px]">Kadın</h5>
+                                    {womenCategories.map(cat => (
+                                        <Link
+                                            key={cat.id}
+                                            to={`/shop/kadin/${cat.title.toLowerCase()}/${cat.id}`}
+                                            className="text-[#737373] hover:text-[#23A6F0] transition-colors text-sm"
+                                        >
+                                            {cat.title}
+                                        </Link>
+                                    ))}
+                                </div>
+
+                                {/* Men Column */}
+                                <div className="flex flex-col gap-2">
+                                    <h5 className="font-bold text-[#252B42] text-lg border-b pb-2 mb-2 w-[150px]">Erkek</h5>
+                                    {menCategories.map(cat => (
+                                        <Link
+                                            key={cat.id}
+                                            to={`/shop/erkek/${cat.title.toLowerCase()}/${cat.id}`}
+                                            className="text-[#737373] hover:text-[#23A6F0] transition-colors text-sm"
+                                        >
+                                            {cat.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
 
                         <Link to="/about" className={getLinkClass('/about')}>About</Link>
                         <Link to="/blog" className={getLinkClass('/blog')}>Blog</Link>
@@ -120,17 +158,25 @@ const Header = () => {
                     {/* Right Section (Desktop Only) */}
                     <div className="hidden md:flex items-center space-x-[30px] text-[#23A6F0]">
                         {user?.name ? (
-                            <div className="flex items-center font-bold text-sm">
-                                {user.email ? (
-                                    <img
-                                        src={`https://www.gravatar.com/avatar/${md5(user.email)}?s=32&d=mp`}
-                                        alt="User Avatar"
-                                        className="w-8 h-8 rounded-full mr-[5px]"
-                                    />
-                                ) : (
-                                    <User className="w-4 h-4 mr-[5px]" />
-                                )}
-                                <span>{user.name}</span>
+                            <div className="relative group">
+                                <button className="flex items-center font-bold text-sm">
+                                    {user.email ? (
+                                        <img
+                                            src={`https://www.gravatar.com/avatar/${md5(user.email)}?s=32&d=mp`}
+                                            alt="User Avatar"
+                                            className="w-8 h-8 rounded-full mr-[5px]"
+                                        />
+                                    ) : (
+                                        <User className="w-4 h-4 mr-[5px]" />
+                                    )}
+                                    <span>{user.name}</span>
+                                    <ChevronDown size={14} className="ml-1" />
+                                </button>
+                                <div className="absolute right-0 top-full pt-2 hidden group-hover:block z-50 min-w-[200px]">
+                                    <div className="bg-white shadow-lg rounded-md border border-gray-100 py-2 flex flex-col items-start text-left">
+                                        <Link to="/previous-orders" className="w-full px-4 py-2 hover:bg-gray-50 text-[#737373] hover:text-[#23A6F0] text-sm font-normal">Siparişlerim</Link>
+                                    </div>
+                                </div>
                             </div>
                         ) : (
                             <Link to="/login" className="flex items-center font-bold text-sm hover:text-blue-600 transition-colors">
@@ -140,13 +186,61 @@ const Header = () => {
                         )}
                         <div className="flex items-center space-x-[30px]">
                             <button className="hover:text-blue-600 transition-colors"><Search className="w-4 h-4" /></button>
-                            <button className="flex items-center hover:text-blue-600 transition-colors">
-                                <ShoppingCart className="w-4 h-4" />
-                                <span className="ml-1 text-xs font-normal">1</span>
-                            </button>
+
+                            {/* Cart Dropdown */}
+                            <div className="relative group pointer-events-auto z-50">
+                                <Link to="/cart" className="flex items-center hover:text-blue-600 transition-colors py-4">
+                                    <ShoppingCart className="w-4 h-4" />
+                                    <span className="ml-1 text-xs font-normal">
+                                        {useSelector(state => state.shoppingCart.cart.reduce((sum, item) => sum + item.count, 0))}
+                                    </span>
+                                </Link>
+
+                                {/* Dropdown Body */}
+                                <div className="absolute right-0 top-[80%] w-[320px] bg-white shadow-xl rounded-md overflow-hidden hidden group-hover:block border border-gray-100 animate-fade-in z-50">
+                                    <h4 className="p-4 font-bold text-gray-700 border-b">
+                                        Sepetim ({useSelector(state => state.shoppingCart.cart.reduce((sum, item) => sum + item.count, 0))} Ürün)
+                                    </h4>
+
+                                    <div className="max-h-[300px] overflow-y-auto">
+                                        {useSelector(state => state.shoppingCart.cart).map((item, idx) => (
+                                            <div key={idx} className="flex gap-4 p-4 border-b hover:bg-gray-50">
+                                                <div className="w-[60px] h-[80px] rounded object-cover overflow-hidden flex-shrink-0 border bg-gray-100">
+                                                    <img
+                                                        src={(item.product.images && item.product.images[0] && item.product.images[0].url) || (Array.isArray(item.product.images) ? item.product.images[0] : item.product.images) || "https://via.placeholder.com/60"}
+                                                        alt={item.product.name}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                </div>
+                                                <div className="flex flex-col justify-between flex-grow">
+                                                    <h5 className="font-bold text-sm text-[#252B42] line-clamp-2">{item.product.name}</h5>
+                                                    <div className="flex justify-between items-center mt-2">
+                                                        <span className="text-xs text-gray-500">Adet: {item.count}</span>
+                                                        <span className="font-bold text-[#23A6F0] text-sm">
+                                                            ${(item.product.price * item.count).toFixed(2)}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        {useSelector(state => state.shoppingCart.cart).length === 0 && (
+                                            <div className="p-8 text-center text-gray-500 text-sm">Sepetiniz boş</div>
+                                        )}
+                                    </div>
+
+                                    <div className="p-4 flex gap-2">
+                                        <Link to="/cart" className="flex-1 py-3 border border-gray-300 rounded text-center text-sm font-bold text-gray-700 hover:bg-gray-50">
+                                            Sepete Git
+                                        </Link>
+                                        <Link to="/checkout" className="flex-1 py-3 bg-[#ER7C40] bg-orange-500 rounded text-center text-sm font-bold text-white hover:bg-orange-600">
+                                            Siparişi Tamamla
+                                        </Link>
+                                    </div>
+                                </div>
+                            </div>
                             <button className="flex items-center hover:text-blue-600 transition-colors">
                                 <Heart className="w-4 h-4" />
-                                <span className="ml-1 text-xs font-normal">1</span>
+                                <span className="ml-1 text-xs font-normal">0</span>
                             </button>
                         </div>
                     </div>

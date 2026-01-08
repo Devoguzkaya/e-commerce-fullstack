@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../store/slices/productSlice';
 import { ChevronRight } from 'lucide-react';
 import ShopCategoryCards from '../components/shop/ShopCategoryCards';
 import ShopFilter from '../components/shop/ShopFilter';
@@ -8,19 +10,59 @@ import Clients from '../components/home/Clients';
 import { shopProducts } from '../data/shopData';
 
 export default function ShopPage() {
-    const [viewMode, setViewMode] = useState('grid');
-    const [sort, setSort] = useState('popularity');
-    const [currentPage, setCurrentPage] = useState(1);
+    const { categoryId } = useParams(); // Get Category ID from URL
+    const dispatch = useDispatch();
+    const { productList, total, fetchState } = useSelector(state => state.product);
 
-    // Sorting Logic
-    const sortedProducts = [...shopProducts].sort((a, b) => {
-        if (sort === 'price-asc') {
-            return parseFloat(a.salePrice.replace('$', '')) - parseFloat(b.salePrice.replace('$', ''));
-        } else if (sort === 'price-desc') {
-            return parseFloat(b.salePrice.replace('$', '')) - parseFloat(a.salePrice.replace('$', ''));
+    const [viewMode, setViewMode] = useState('grid');
+    const [sort, setSort] = useState('');
+    const [filter, setFilter] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const limit = 25;
+
+    // Reset Page on Filter Change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [categoryId, sort, filter]);
+
+    // Fetch Products
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            const offset = (currentPage - 1) * limit;
+            const params = {
+                limit: limit,
+                offset: offset,
+                category: categoryId,
+                sort: sort,
+                filter: filter
+            };
+            dispatch(fetchProducts(params));
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [dispatch, categoryId, sort, filter, currentPage]);
+
+    // Pagination Calculations
+    const totalPages = Math.ceil(total / limit);
+    // Generate page numbers (simplified: show all or max 3-5? Let's show up to 3 for now or all if small)
+    // Dynamic pagination logic usually complex. I'll render simple [1, 2, 3 ... last] or just few around current.
+    // For this task, let's render all if < 7, otherwise condensed.
+    // Simple version: Just numbers.
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pages.push(i);
+    }
+
+    // Client-side sorting removed; Backend handles it via 'sort' param in fetchProducts
+    // const sortedProducts = ...
+
+    // Handlers
+    const handlePageChange = (page) => {
+        if (page >= 1 && page <= totalPages) {
+            setCurrentPage(page);
+            window.scrollTo(0, 0);
         }
-        return 0; // Popularity (default order)
-    });
+    };
 
     return (
         <div className="bg-white">
@@ -48,33 +90,71 @@ export default function ShopPage() {
                     setViewMode={setViewMode}
                     sort={sort}
                     setSort={setSort}
+                    filter={filter}
+                    setFilter={setFilter}
                 />
 
                 {/* Products Grid */}
-                <div className={`grid gap-8 mb-12 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}`}>
-                    {sortedProducts.map((product) => (
-                        <div key={product.id} className={viewMode === 'list' ? 'flex justify-center' : ''}>
-                            <ShopProductCard product={product} /> {/* You might want a different card style for list view */}
-                        </div>
-                    ))}
-                </div>
+                {fetchState === 'FETCHING' ? (
+                    <div className="flex justify-center items-center h-96">
+                        <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
+                    </div>
+                ) : (
+                    <div className={`grid gap-8 mb-12 ${viewMode === 'list' ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'}`}>
+                        {productList.map((product) => (
+                            <div key={product.id} className={viewMode === 'list' ? 'flex justify-center' : ''}>
+                                <ShopProductCard product={product} />
+                            </div>
+                        ))}
+                    </div>
+                )}
 
-                {/* Pagination (State Connected) */}
-                <div className="flex justify-center items-center rounded-[5px] border border-[#BDBDBD] bg-white w-fit mx-auto shadow-sm overflow-hidden mt-8">
-                    <button onClick={() => setCurrentPage(1)} className={`h-[74px] px-[25px] border-r border-[#BDBDBD] font-bold text-[14px] transition-colors ${currentPage === 1 ? 'text-[#BDBDBD] bg-[#F3F3F3] cursor-not-allowed' : 'text-[#23A6F0] hover:bg-gray-50'}`} disabled={currentPage === 1}>First</button>
-
-                    {[1, 2, 3].map(page => (
+                {/* Pagination */}
+                {totalPages > 1 && (
+                    <div className="flex justify-center items-center rounded-[5px] border border-[#BDBDBD] bg-white w-fit mx-auto shadow-sm overflow-hidden mt-8">
                         <button
-                            key={page}
-                            onClick={() => setCurrentPage(page)}
-                            className={`h-[74px] w-[46px] border-r border-[#E9E9E9] font-bold text-[14px] flex items-center justify-center transition-colors ${currentPage === page ? 'bg-[#23A6F0] text-white' : 'bg-white text-[#23A6F0] hover:bg-gray-50'}`}
+                            onClick={() => handlePageChange(1)}
+                            className={`h-[74px] px-[25px] border-r border-[#BDBDBD] font-bold text-[14px] transition-colors ${currentPage === 1 ? 'text-[#BDBDBD] bg-[#F3F3F3] cursor-not-allowed' : 'text-[#23A6F0] hover:bg-gray-50'}`}
+                            disabled={currentPage === 1}
                         >
-                            {page}
+                            First
                         </button>
-                    ))}
+                        <button
+                            onClick={() => handlePageChange(currentPage - 1)}
+                            className={`h-[74px] px-[20px] border-r border-[#BDBDBD] font-bold text-[14px] transition-colors ${currentPage === 1 ? 'text-[#BDBDBD] bg-[#F3F3F3] cursor-not-allowed' : 'text-[#23A6F0] hover:bg-gray-50'}`}
+                            disabled={currentPage === 1}
+                        >
+                            Prev
+                        </button>
 
-                    <button onClick={() => setCurrentPage(currentPage + 1)} className="h-[74px] px-[25px] text-[#23A6F0] font-bold text-[14px] bg-white hover:bg-gray-50 transition-colors">Next</button>
-                </div>
+                        {/* Rendering limited pages to avoid overflow if pages > 10 */}
+                        {pages.map(page => {
+                            // Show first, last, current, and neighbors
+                            if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
+                                return (
+                                    <button
+                                        key={page}
+                                        onClick={() => handlePageChange(page)}
+                                        className={`h-[74px] w-[46px] border-r border-[#E9E9E9] font-bold text-[14px] flex items-center justify-center transition-colors ${currentPage === page ? 'bg-[#23A6F0] text-white' : 'bg-white text-[#23A6F0] hover:bg-gray-50'}`}
+                                    >
+                                        {page}
+                                    </button>
+                                );
+                            } else if (page === currentPage - 2 || page === currentPage + 2) {
+                                return <span key={page} className="px-2 text-gray-400">...</span>
+                            }
+                            return null;
+                        })}
+
+                        <button
+                            onClick={() => handlePageChange(currentPage + 1)}
+                            className={`h-[74px] px-[20px] border-r border-[#BDBDBD] font-bold text-[14px] bg-white hover:bg-gray-50 transition-colors ${currentPage === totalPages ? 'text-[#BDBDBD] cursor-not-allowed' : 'text-[#23A6F0]'}`}
+                            disabled={currentPage === totalPages}
+                        >
+                            Next
+                        </button>
+                    </div>
+                )}
             </div>
 
             {/* 4. Clients / Logos */}

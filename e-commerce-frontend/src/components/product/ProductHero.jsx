@@ -1,19 +1,38 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/slices/shoppingCartSlice';
 import { Star, Heart, ShoppingCart, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const ProductHero = ({ product }) => {
-    const [activeImage, setActiveImage] = useState(product.images[0]);
+    const dispatch = useDispatch();
+    // API Adapter
+    const images = product.images?.map(img => img.url) || ['https://via.placeholder.com/600'];
+    const title = product.name || product.title;
+    const desc = product.description;
+    const price = typeof product.price === 'number' ? `$${product.price.toFixed(2)}` : product.price;
+    const stock = product.stock > 0 ? 'In Stock' : 'Out of Stock';
+    const rating = product.rating || 0;
+    const reviews = product.sell_count || 0;
+    // Mock colors if API doesn't provide
+    const colors = product.colors || ['#23A6F0', '#23856D', '#E77C40', '#252B42'];
+
+    const [activeImage, setActiveImage] = useState(images[0]);
+
+    // Update active image if product changes
+    React.useEffect(() => {
+        setActiveImage(images[0]);
+    }, [product]);
 
     const handleNext = () => {
-        const currentIndex = product.images.indexOf(activeImage);
-        const nextIndex = (currentIndex + 1) % product.images.length;
-        setActiveImage(product.images[nextIndex]);
+        const currentIndex = images.indexOf(activeImage);
+        const nextIndex = (currentIndex + 1) % images.length;
+        setActiveImage(images[nextIndex]);
     };
 
     const handlePrev = () => {
-        const currentIndex = product.images.indexOf(activeImage);
-        const prevIndex = (currentIndex - 1 + product.images.length) % product.images.length;
-        setActiveImage(product.images[prevIndex]);
+        const currentIndex = images.indexOf(activeImage);
+        const prevIndex = (currentIndex - 1 + images.length) % images.length;
+        setActiveImage(images[prevIndex]);
     };
 
     return (
@@ -27,27 +46,31 @@ const ProductHero = ({ product }) => {
                         <div className="w-full h-[300px] lg:h-[450px] rounded-[5px] overflow-hidden relative shadow-sm">
                             <img
                                 src={activeImage}
-                                alt={product.title}
-                                className="w-full h-full object-cover animate-fade-in transition-opacity duration-300"
+                                alt={title}
+                                className="w-full h-full object-contain bg-white animate-fade-in transition-opacity duration-300"
                             />
                             {/* Arrows */}
-                            <button
-                                onClick={handlePrev}
-                                className="absolute left-[20px] top-1/2 -translate-y-1/2 text-white bg-transparent outline-none hover:scale-110 transition-transform"
-                            >
-                                <ChevronLeft size={44} strokeWidth={1} />
-                            </button>
-                            <button
-                                onClick={handleNext}
-                                className="absolute right-[20px] top-1/2 -translate-y-1/2 text-white bg-transparent outline-none hover:scale-110 transition-transform"
-                            >
-                                <ChevronRight size={44} strokeWidth={1} />
-                            </button>
+                            {images.length > 1 && (
+                                <>
+                                    <button
+                                        onClick={handlePrev}
+                                        className="absolute left-[20px] top-1/2 -translate-y-1/2 text-black/50 hover:text-black bg-transparent outline-none hover:scale-110 transition-transform"
+                                    >
+                                        <ChevronLeft size={44} strokeWidth={1} />
+                                    </button>
+                                    <button
+                                        onClick={handleNext}
+                                        className="absolute right-[20px] top-1/2 -translate-y-1/2 text-black/50 hover:text-black bg-transparent outline-none hover:scale-110 transition-transform"
+                                    >
+                                        <ChevronRight size={44} strokeWidth={1} />
+                                    </button>
+                                </>
+                            )}
                         </div>
 
-                        {/* Thumbnails (100x75px) */}
+                        {/* Thumbnails */}
                         <div className="flex items-center gap-[19px] overflow-x-auto pb-2">
-                            {product.images.map((img, idx) => (
+                            {images.map((img, idx) => (
                                 <div
                                     key={idx}
                                     onClick={() => setActiveImage(img)}
@@ -62,54 +85,60 @@ const ProductHero = ({ product }) => {
                     {/* RIGHT: Product Info (Fluid Width) */}
                     <div className="flex-1 w-full pt-[11px] lg:px-[24px]">
                         <h4 className="font-normal text-[20px] leading-[30px] tracking-[0.2px] text-[#252B42] mb-[12px]">
-                            {product.title}
+                            {title}
                         </h4>
 
                         {/* Rating */}
                         <div className="flex items-center gap-[10px] mb-[20px]">
                             <div className="flex items-center gap-[5px] text-[#F3CD03]">
-                                {[...Array(4)].map((_, i) => (
-                                    <Star key={i} size={22} fill="#F3CD03" strokeWidth={0} />
+                                {/* Detailed Star Logic */}
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} size={22} fill={i < Math.round(rating) ? "#F3CD03" : "none"} stroke="#F3CD03" strokeWidth={i < Math.round(rating) ? 0 : 2} />
                                 ))}
-                                <Star size={22} fill="none" stroke="#F3CD03" strokeWidth={2} />
                             </div>
                             <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">
-                                {product.reviews} Reviews
+                                {reviews} Reviews
                             </span>
                         </div>
 
                         {/* Price */}
                         <h5 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[5px]">
-                            {product.price}
+                            {price}
                         </h5>
                         <div className="flex items-center gap-[5px] mb-[32px]">
                             <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">Availability :</span>
-                            <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#23A6F0]">{product.availability}</span>
+                            <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#23A6F0]">{stock}</span>
                         </div>
 
                         {/* Description */}
                         <p className="font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#858585] mb-[32px]">
-                            {product.description}
+                            {desc}
                         </p>
 
                         <hr className="border-[#BDBDBD] mb-[29px]" />
 
                         {/* Colors */}
                         <div className="flex items-center gap-[10px] mb-[67px]">
-                            {product.colors.map((color, idx) => (
+                            {colors.map((color, idx) => (
                                 <div key={idx} className="w-[30px] h-[30px] rounded-full cursor-pointer hover:scale-110 transition-transform shadow-sm" style={{ backgroundColor: color }}></div>
                             ))}
                         </div>
 
                         {/* Actions */}
                         <div className="flex items-center gap-[10px]">
-                            <button className="h-[44px] px-[20px] py-[10px] bg-[#23A6F0] text-white font-bold text-[14px] leading-[24px] tracking-[0.2px] rounded-[5px] hover:bg-blue-600 transition-colors">
-                                Select Options
+                            <button
+                                onClick={() => dispatch(addToCart(product))}
+                                className="h-[44px] px-[20px] py-[10px] bg-[#23A6F0] text-white font-bold text-[14px] leading-[24px] tracking-[0.2px] rounded-[5px] hover:bg-blue-600 transition-colors"
+                            >
+                                Add to Cart
                             </button>
                             <button className="w-[40px] h-[40px] rounded-full border border-[#E8E8E8] bg-white flex items-center justify-center text-[#252B42] hover:bg-gray-50 transition-colors">
                                 <Heart size={20} />
                             </button>
-                            <button className="w-[40px] h-[40px] rounded-full border border-[#E8E8E8] bg-white flex items-center justify-center text-[#252B42] hover:bg-gray-50 transition-colors">
+                            <button
+                                onClick={() => dispatch(addToCart(product))}
+                                className="w-[40px] h-[40px] rounded-full border border-[#E8E8E8] bg-white flex items-center justify-center text-[#252B42] hover:bg-gray-50 transition-colors"
+                            >
                                 <ShoppingCart size={20} />
                             </button>
                             <button className="w-[40px] h-[40px] rounded-full border border-[#E8E8E8] bg-white flex items-center justify-center text-[#252B42] hover:bg-gray-50 transition-colors">
