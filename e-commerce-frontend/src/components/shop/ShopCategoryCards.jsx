@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 export default function ShopCategoryCards() {
     const categories = useSelector(state => state.product.categories);
 
-    // Top 5 by Rating
     const topCategories = [...categories]
         .sort((a, b) => b.rating - a.rating)
         .slice(0, 5);
@@ -21,14 +20,12 @@ export default function ShopCategoryCards() {
                                 key={cat.id}
                                 className="relative group w-full aspect-square overflow-hidden bg-gray-200"
                             >
-                                {/* Background Image */}
                                 <img
                                     src={cat.img}
                                     alt={cat.title}
                                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                 />
 
-                                {/* Overlay */}
                                 <div className="absolute inset-0 bg-black/25 group-hover:bg-black/40 transition-colors flex flex-col items-center justify-center text-white">
                                     <h3 className="font-bold text-[16px] leading-[24px] uppercase tracking-wide">{cat.title}</h3>
                                     <p className="font-normal text-[14px] leading-[20px]">{cat.rating} Rating</p>

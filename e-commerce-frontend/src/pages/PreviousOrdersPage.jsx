@@ -14,9 +14,6 @@ const PreviousOrdersPage = () => {
         const fetchOrders = async () => {
             try {
                 const response = await api.get('/order');
-                // API response might be wrapped or direct array. Assuming array or { data: [] }
-                // Based on previous patterns, let's assume direct array or check structure.
-                // If it follows standard pattern: response.data
                 setOrders(Array.isArray(response.data) ? response.data : response.data.orders || []);
             } catch (error) {
                 console.error("Failed to fetch orders", error);
@@ -51,7 +48,6 @@ const PreviousOrdersPage = () => {
                     <div className="flex flex-col gap-4">
                         {orders.map((order) => (
                             <div key={order.id} className="bg-white border boundary-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                                {/* Header Row */}
                                 <div
                                     className="p-4 flex flex-col md:flex-row justify-between items-center cursor-pointer bg-gray-50 border-b border-gray-100"
                                     onClick={() => toggleOrder(order.id)}
@@ -79,17 +75,12 @@ const PreviousOrdersPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Expanded Details */}
                                 {expandedOrder === order.id && (
                                     <div className="p-4 bg-white animate-fade-in-down">
                                         <div className="grid grid-cols-1 gap-4">
                                             {order.products?.map((item, idx) => (
                                                 <div key={idx} className="flex gap-4 border-b border-gray-100 last:border-0 pb-4 last:pb-0">
-                                                    {/* We assume product details are embedded or enough info is present. API might return just ID? 
-                                                        If API returns standard product objects populated:
-                                                    */}
                                                     <div className="w-20 h-24 bg-gray-100 rounded overflow-hidden flex-shrink-0">
-                                                        {/* Placeholder or actual image if available in order item */}
                                                         <img src="https://via.placeholder.com/150" alt="Product" className="w-full h-full object-cover" />
                                                     </div>
                                                     <div className="flex-1">
@@ -98,7 +89,6 @@ const PreviousOrdersPage = () => {
                                                             <span className="font-bold text-[#F27A1A]">x{item.count}</span>
                                                         </div>
                                                         <p className="text-sm text-gray-500 mt-1">
-                                                            {/* Price might not be on item level in order history payload usually, but good to have if possible */}
                                                         </p>
                                                         <div className="mt-2 text-green-600 text-xs font-bold flex items-center gap-1">
                                                             <CheckCircle size={12} /> Sipariş Alındı

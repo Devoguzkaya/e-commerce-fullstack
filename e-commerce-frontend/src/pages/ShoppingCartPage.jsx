@@ -9,12 +9,10 @@ const ShoppingCartPage = () => {
     const navigate = useNavigate();
     const { cart } = useSelector(state => state.shoppingCart);
 
-    // Filter active items for totals
     const activeItems = cart.filter(item => item.checked);
 
-    // Calculations
     const subtotal = activeItems.reduce((sum, item) => sum + (item.product.price * item.count), 0);
-    const shippingCost = subtotal > 150 || subtotal === 0 ? 0 : 29.99; // Free shipping logic
+    const shippingCost = subtotal > 150 || subtotal === 0 ? 0 : 29.99;
     const grandTotal = subtotal + shippingCost;
 
     const handleCountChange = (productId, newCount) => {
@@ -41,16 +39,12 @@ const ShoppingCartPage = () => {
         <div className="bg-[#FAFAFA] min-h-screen pb-12">
             <div className="container mx-auto px-4 py-8">
 
-
-
                 <div className="flex flex-col lg:flex-row gap-8">
 
-                    {/* LEFT: Cart Items List */}
                     <div className="flex-1 flex flex-col gap-4">
 
                         <h2 className="text-xl font-semibold text-[#252B42]">Sepetim ({cart.length} Ürün)</h2>
 
-                        {/* Top Info Banner - Adjusted Color to match screenshot exactly */}
                         <div className="bg-[#F8F9FA] border border-[#E8E8E8] p-3 rounded-lg flex items-center gap-3 shadow-sm">
                             <div className="bg-[#0BC15C] rounded-full p-[2px] w-5 h-5 flex items-center justify-center shadow-sm">
                                 <Check className="text-white w-3 h-3" strokeWidth={4} />
@@ -58,7 +52,6 @@ const ShoppingCartPage = () => {
                             <span className="text-sm font-medium text-[#252B42]">Sepetindeki Ürünleri Bireysel Veya Kurumsal Fatura Seçerek Alabilirsin.</span>
                         </div>
 
-                        {/* Items */}
                         {cart.map((item) => {
                             const product = item.product;
                             const image = (product.images && product.images[0] && product.images[0].url) || (Array.isArray(product.images) ? product.images[0] : product.images) || "https://via.placeholder.com/100";
@@ -66,7 +59,6 @@ const ShoppingCartPage = () => {
                             return (
                                 <div key={product.id} className="bg-white rounded-xl shadow-[0_1px_3px_rgba(0,0,0,0.05)] border border-[#E6E6E6] overflow-hidden relative group">
 
-                                    {/* Seller Header */}
                                     <div className="px-5 py-3 border-b border-[#F0F0F0] bg-white flex flex-col md:flex-row md:items-center justify-between gap-2">
                                         <div className="flex items-center gap-2">
                                             <button
@@ -83,19 +75,16 @@ const ShoppingCartPage = () => {
                                                 Kurumsal <span className="w-3 h-3 rounded-full border border-current flex items-center justify-center text-[8px]">i</span>
                                             </span>
                                         </div>
-                                        {/* Campaign Badge */}
                                         <div className="hidden md:flex items-center bg-[#FFF1E6] text-[#F27A1A] text-xs px-3 py-1 rounded-full">
                                             <span className="font-bold mr-1">🏷️ 3 Adet ve Üzeri 40 TL İndirim</span>
                                             <span className="font-normal text-[#F27A1A] cursor-pointer hover:underline text-[10px] ml-2">Tüm Ürünler {'>'}</span>
                                         </div>
                                     </div>
 
-                                    {/* Green Shipping Banner */}
                                     <div className="bg-[#E6F7E6] text-[#0BC15C] text-xs font-bold text-center py-1.5 border-b border-[#E6F7E6] flex items-center justify-center gap-2">
                                         <div className="w-4 h-4 rounded border border-current flex items-center justify-center">📦</div> Kargo Bedava!
                                     </div>
 
-                                    {/* Main Content */}
                                     <div className="p-5 flex flex-col md:flex-row items-center gap-6">
 
                                         <div className="hidden md:block self-center">
@@ -107,12 +96,10 @@ const ShoppingCartPage = () => {
                                             </button>
                                         </div>
 
-                                        {/* Image */}
                                         <div className="w-[100px] h-[120px] border border-gray-100 rounded-lg overflow-hidden flex-shrink-0 bg-white p-2">
                                             <img src={image} alt={product.name} className="w-full h-full object-contain mix-blend-multiply" />
                                         </div>
 
-                                        {/* Details */}
                                         <div className="flex-1 flex flex-col gap-1.5 self-start md:self-center">
                                             <h3 className="font-medium text-[#333333] text-[15px] leading-snug">
                                                 <span className="font-bold text-[#252B42]">Marka</span> {product.name} - Detaylı Açıklama
@@ -127,10 +114,8 @@ const ShoppingCartPage = () => {
                                             </div>
                                         </div>
 
-                                        {/* Controls (Right Side) */}
                                         <div className="flex flex-row md:flex-col lg:flex-row items-center gap-8 ml-auto self-center">
 
-                                            {/* Quantity */}
                                             <div className="flex items-center border border-[#E6E6E6] rounded bg-white h-[40px] shadow-sm">
                                                 <button
                                                     onClick={() => handleCountChange(product.id, item.count - 1)}
@@ -148,14 +133,12 @@ const ShoppingCartPage = () => {
                                                 </button>
                                             </div>
 
-                                            {/* Price */}
                                             <div className="flex flex-col items-end min-w-[100px]">
                                                 <span className="font-bold text-[#F27A1A] text-lg tracking-tight">
                                                     {(product.price * item.count).toLocaleString('tr-TR', { minimumFractionDigits: 2 })} TL
                                                 </span>
                                             </div>
 
-                                            {/* Delete */}
                                             <button
                                                 onClick={() => dispatch(removeFromCart(product.id))}
                                                 className="text-[#999999] hover:text-[#333333] transition-colors"
@@ -168,7 +151,6 @@ const ShoppingCartPage = () => {
                             );
                         })}
 
-                        {/* Bottom Tabs */}
                         <div className="mt-8">
                             <div className="flex items-center gap-8 border-b border-gray-200">
                                 <button className="pb-3 border-b-2 border-[#F27A1A] text-[#F27A1A] font-medium text-sm">Önceden Eklediklerim</button>
@@ -180,7 +162,6 @@ const ShoppingCartPage = () => {
                         </div>
                     </div>
 
-                    {/* RIGHT: Order Summary */}
                     <div className="w-full lg:w-[300px] flex flex-col gap-4">
 
                         <div className="bg-white p-5 rounded-lg shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-[#E6E6E6] sticky top-4">
@@ -210,7 +191,6 @@ const ShoppingCartPage = () => {
                                 </div>
                             </div>
 
-                            {/* Discount Code Input */}
                             {showCouponInput ? (
                                 <div className="flex flex-col gap-2 mb-4 animate-in fade-in zoom-in duration-200">
                                     <div className="flex gap-2">

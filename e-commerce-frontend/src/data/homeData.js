@@ -3,12 +3,10 @@ import caramelBg from '../assets/caramel1.png';
 import scooterImg from '../assets/bike.png';
 import meatPlate from '../assets/meat.png';
 
-// Blog Section Images
 import roadImg from '../assets/road1.png';
-import carImg from '../assets/car1.png'; // Verified exists
+import carImg from '../assets/car1.png';
 import umbrellaImg from '../assets/umbrellas1.png';
 
-// Clients SVG Imports
 import logoHooli from '../assets/hoolisvg.svg';
 import logoLyft from '../assets/lyftsvg.svg';
 import logoStripe from '../assets/stripesvg.svg';
@@ -16,17 +14,14 @@ import logoAws from '../assets/awssvg.svg';
 import logoReddit from '../assets/redditsvg.svg';
 import logoRobinhood from '../assets/robinhoodsvg.svg';
 
-// Bestseller Product Images
 import product1 from '../assets/bestseller1.png';
 import product2 from '../assets/bestseller2.png';
 import product3 from '../assets/bestseller3.png';
 import product4 from '../assets/bestseller4.png';
 
-// Banner Images (Restored)
-import furnitureBanner from '../assets/section2left.jpg'; // Yellow
-import donutBanner from '../assets/card-cover-5 (donut).jpg'; // Blue
+import furnitureBanner from '../assets/section2left.jpg';
+import donutBanner from '../assets/card-cover-5 (donut).jpg';
 
-// FeaturedProduct (Burger) Data
 export const featuredProductData = {
     sectionTitle: "MOST POPULAR",
     description: "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
@@ -41,7 +36,6 @@ export const featuredProductData = {
     }
 };
 
-// MostPopular (Scooter) Data
 export const mostPopularData = {
     heroImage: scooterImg,
     header: "MOST POPULAR",
@@ -62,7 +56,6 @@ export const mostPopularData = {
     ]
 };
 
-// Bestseller Products List (Grid)
 export const bestsellerProducts = [
     { id: 1, image: product1, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
     { id: 2, image: product2, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
@@ -74,7 +67,6 @@ export const bestsellerProducts = [
     { id: 8, image: product4, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
 ];
 
-// Yellow Banner Section Data (Restored)
 export const bestsellerSectionData = {
     title: "BESTSELLER PRODUCTS",
     menuItems: ["Men", "Women", "Accessories"],
@@ -85,7 +77,6 @@ export const bestsellerSectionData = {
     }
 };
 
-// Blue Banner Section Data (Restored)
 export const furnitureSectionData = {
     title: "BESTSELLER PRODUCTS",
     menuItems: ["Men", "Women", "Accessories"],
@@ -96,7 +87,6 @@ export const furnitureSectionData = {
     }
 };
 
-// Blog/Featured Posts Data
 export const blogPosts = [
     {
         id: 1,
@@ -127,7 +117,6 @@ export const blogPosts = [
     },
 ];
 
-// Clients Data
 export const clientsData = [
     { id: 1, name: 'Hooli', logo: logoHooli },
     { id: 2, name: 'Lyft', logo: logoLyft },

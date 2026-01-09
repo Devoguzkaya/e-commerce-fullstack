@@ -4,16 +4,13 @@ import headerBg from '../assets/contact.png';
 export default function ContactPage() {
     return (
         <div className="bg-white">
-            {/* Contact Hero Section */}
             <div className="relative py-10 md:pt-[160px] md:pb-[112px] flex items-center justify-center min-h-auto md:min-h-[446px]">
-                {/* Background Image */}
                 <img
                     src={headerBg}
                     alt="Contact Background"
                     className="absolute inset-0 w-full h-full object-cover z-0"
                 />
 
-                {/* Content Overlay */}
                 <div className="container mx-auto px-4 flex flex-col items-center relative z-10 w-full max-w-[1050px]">
 
                     <div className="flex flex-col items-center gap-[30px] w-full max-w-[600px] text-center">

@@ -16,9 +16,8 @@ const Header = () => {
 
     const user = useSelector(state => state.client.user);
     const categories = useSelector(state => state.product.categories);
-    const cart = useSelector(state => state.shoppingCart.cart); // Optimized selector
+    const cart = useSelector(state => state.shoppingCart.cart);
 
-    // Group Categories
     const womenCategories = categories.filter(c => c.code.startsWith('k:'));
     const menCategories = categories.filter(c => c.code.startsWith('e:'));
 
@@ -36,8 +35,7 @@ const Header = () => {
 
     const getLinkClass = (path) => {
         const baseClass = "text-[18px] md:text-sm font-normal md:font-bold hover:text-[#252B42] transition-colors leading-[24px] md:leading-[24px]";
-        // Check for active state
-        // Special case for Shop to include sub-routes
+
         const isActive = path === '/shop'
             ? location.pathname.startsWith('/shop')
             : location.pathname === path;
@@ -47,7 +45,6 @@ const Header = () => {
 
     return (
         <header className="w-full bg-white transition-all duration-300 font-bold">
-            {/* Top Bar - Desktop Only */}
             <div className="hidden md:block w-full bg-[#252B42] text-white py-[10px]">
                 <div className="container mx-auto px-4 flex justify-between items-center text-[14px] leading-[24px] tracking-[0.2px] font-bold">
                     <div className="flex items-center gap-[30px]">
@@ -75,17 +72,14 @@ const Header = () => {
                 </div>
             </div>
 
-            {/* Main Navbar */}
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-col md:flex-row justify-between items-center py-4 md:h-[90px] md:py-0">
 
-                    {/* Logo & Mobile Menu Toggle */}
                     <div className="w-full md:w-auto flex justify-between items-center">
                         <Link to="/" className="text-2xl font-bold text-[#252B42] tracking-tight">
                             Bandage
                         </Link>
 
-                        {/* Mobile Icons */}
                         <div className="flex md:hidden items-center space-x-4 text-[#737373]">
                             <button className="hover:text-blue-600 transition-colors">
                                 <Search className="w-6 h-6" />
@@ -99,20 +93,16 @@ const Header = () => {
                         </div>
                     </div>
 
-                    {/* Navigation Links */}
                     <nav className={`${isMenuOpen ? 'flex' : 'hidden'} md:flex flex-col md:flex-row items-center gap-4 md:gap-[15px] mt-8 md:mt-0 w-full md:w-auto`}>
                         <Link to="/" className={getLinkClass('/')}>Home</Link>
 
-                        {/* Shop Dropdown Trigger */}
                         <div className="relative group z-50">
                             <Link to="/shop" className={`${getLinkClass('/shop')} flex items-center gap-2 py-4`}>
                                 Shop
                                 <ChevronDown size={12} className="hidden md:block" />
                             </Link>
 
-                            {/* Dropdown Menu */}
                             <div className="absolute top-full left-0 bg-white shadow-lg rounded-md py-4 px-6 min-w-[400px] hidden group-hover:flex gap-8 border border-gray-100 transform transition-all duration-200">
-                                {/* Women Column */}
                                 <div className="flex flex-col gap-2">
                                     <h5 className="font-bold text-[#252B42] text-lg border-b pb-2 mb-2 w-[150px]">Kadın</h5>
                                     {womenCategories.map(cat => (
@@ -126,7 +116,6 @@ const Header = () => {
                                     ))}
                                 </div>
 
-                                {/* Men Column */}
                                 <div className="flex flex-col gap-2">
                                     <h5 className="font-bold text-[#252B42] text-lg border-b pb-2 mb-2 w-[150px]">Erkek</h5>
                                     {menCategories.map(cat => (
@@ -148,7 +137,6 @@ const Header = () => {
                         <Link to="/contact" className={getLinkClass('/contact')}>Contact</Link>
                         <Link to="/pages" className={getLinkClass('/pages')}>Pages</Link>
 
-                        {/* Mobile Menu Extra Links if needed */}
                         <div className="flex md:hidden flex-col items-center gap-4 mt-4 text-[#23A6F0]">
                             {user?.name ? (
                                 <div className="flex items-center gap-2 text-[18px] font-normal leading-[24px]">
@@ -171,7 +159,6 @@ const Header = () => {
                         </div>
                     </nav>
 
-                    {/* Right Section (Desktop Only) */}
                     <div className="hidden md:flex items-center space-x-[30px] text-[#23A6F0]">
                         {user?.name ? (
                             <div className="relative group">
@@ -204,7 +191,6 @@ const Header = () => {
                         <div className="flex items-center space-x-[30px]">
                             <button className="hover:text-blue-600 transition-colors"><Search className="w-4 h-4" /></button>
 
-                            {/* Cart Dropdown */}
                             <div className="relative group pointer-events-auto z-50">
                                 <Link to="/cart" className="flex items-center hover:text-blue-600 transition-colors py-4">
                                     <ShoppingCart className="w-4 h-4" />
@@ -213,7 +199,6 @@ const Header = () => {
                                     </span>
                                 </Link>
 
-                                {/* Dropdown Body */}
                                 <div className="absolute right-0 top-[80%] w-[320px] bg-white shadow-xl rounded-md overflow-hidden hidden group-hover:block border border-gray-100 animate-fade-in z-50">
                                     <h4 className="p-4 font-bold text-gray-700 border-b">
                                         Sepetim ({cart.reduce((sum, item) => sum + item.count, 0)} Ürün)

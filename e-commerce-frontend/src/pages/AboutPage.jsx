@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Play, Facebook, Instagram, Twitter } from 'lucide-react';
 
-// Client Logos
 import hooli from '../assets/hoolisvg.svg';
 import lyft from '../assets/lyftsvg.svg';
 import stripe from '../assets/stripesvg.svg';
@@ -9,12 +8,10 @@ import aws from '../assets/awssvg.svg';
 import reddit from '../assets/redditsvg.svg';
 import robinhood from '../assets/robinhoodsvg.svg';
 
-// Team Images
 import team1 from '../assets/teampage/team-1-user-1.jpg';
 import team2 from '../assets/teampage/team-1-user-2.jpg';
 import team3 from '../assets/teampage/team-1-user-3.jpg';
 
-// Hero Image
 import yellowDress from '../assets/about/yellowdress.png';
 import pinkyGirl from '../assets/about/pinkygirl.png';
 import videoCover from '../assets/about/videocover.png';
@@ -32,9 +29,7 @@ const AboutPage = () => {
 
     return (
         <div className="bg-white">
-            {/* 1. Hero Section */}
             <div className="container mx-auto px-4 py-10 lg:py-20 flex flex-col items-center lg:flex-row lg:items-center gap-10 lg:gap-0 lg:h-[600px]">
-                {/* Text Content */}
                 <div className="flex flex-col items-center lg:items-start text-center lg:text-left gap-8 lg:w-1/2 z-10">
                     <h5 className="font-['Montserrat'] font-bold text-[16px] text-[#252B42] hidden lg:block">
                         ABOUT COMPANY
@@ -49,15 +44,12 @@ const AboutPage = () => {
                         Get Quote Now
                     </button>
                 </div>
-                {/* Image */}
                 <div className="relative w-full lg:w-1/2 h-[400px] lg:h-[600px] bg-no-repeat bg-center bg-contain" style={{ backgroundImage: `url(${yellowDress})`, backgroundSize: 'contain', backgroundPosition: 'center' }}>
-                    {/* Pink Circles (Decorative) - Desktop Only for now or scaled? Keeping simplified as per previous interaction. */}
                     <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#FFE9EA] rounded-full -z-10 translate-x-[-100px] translate-y-[-100px] hidden lg:block"></div>
                     <div className="absolute top-[35px] left-[40px] w-[295px] h-[295px] bg-[#FFE9EA] rounded-full -z-10 lg:hidden"></div>
                 </div>
             </div>
 
-            {/* 2. Stats Section */}
             <div className="container mx-auto px-4 py-20">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[100px] lg:gap-10 justify-items-center">
                     <div className="flex flex-col items-center">
@@ -79,7 +71,6 @@ const AboutPage = () => {
                 </div>
             </div>
 
-            {/* 3. Video Section */}
             <div className="container mx-auto px-4 py-20 flex justify-center">
                 <div className="relative w-[307px] h-[316px] lg:w-[989px] lg:h-[540px] rounded-[20px] overflow-hidden bg-gray-200 shadow-xl group">
                     <video
@@ -107,7 +98,6 @@ const AboutPage = () => {
                 </div>
             </div>
 
-            {/* 4. Team Section */}
             <div className="container mx-auto px-4 py-20">
                 <div className="text-center mb-10 lg:mb-20">
                     <h2 className="font-['Montserrat'] font-bold text-[40px] text-[#252B42] mb-4">Meet Our Team</h2>
@@ -135,7 +125,6 @@ const AboutPage = () => {
                 </div>
             </div>
 
-            {/* 5. Clients Section */}
             <div className="bg-[#FAFAFA] py-20">
                 <div className="container mx-auto px-4">
                     <div className="text-center mb-10">
@@ -155,10 +144,8 @@ const AboutPage = () => {
                 </div>
             </div>
 
-            {/* 6. Work With Us Section */}
             <div className="flex w-full lg:h-[636px] bg-[#2A7CC7] text-white">
                 <div className="container mx-auto px-4 flex flex-col lg:flex-row items-center h-full sm:py-10">
-                    {/* Text Left */}
                     <div className="flex flex-col gap-6 lg:w-1/2 py-20 lg:pl-0 z-10 text-center lg:text-left items-center lg:items-start">
                         <h5 className="font-['Montserrat'] font-bold text-[16px]">WORK WITH US</h5>
                         <h2 className="font-['Montserrat'] font-bold text-[40px] leading-tight">Now Let's grow Yours</h2>
@@ -169,7 +156,6 @@ const AboutPage = () => {
                             Button
                         </button>
                     </div>
-                    {/* Image Right */}
                     <div className="lg:w-1/2 h-full hidden lg:block relative">
                         <img
                             src={pinkyGirl}

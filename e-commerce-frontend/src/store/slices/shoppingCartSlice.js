@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    cart: [], // [{ count: 1, product: { ... }, checked: true }]
+    cart: [],
     payment: {},
     address: {},
 };
@@ -19,7 +19,6 @@ const shoppingCartSlice = createSlice({
         setAddress: (state, action) => {
             state.address = action.payload;
         },
-        // Helper to add item (optional but useful standard)
         addToCart: (state, action) => {
             const product = action.payload;
             const existingItem = state.cart.find(item => item.product.id === product.id);
@@ -43,9 +42,6 @@ const shoppingCartSlice = createSlice({
         updateItemCount: (state, action) => {
             const { productId, count } = action.payload;
             if (count < 1) {
-                // If count goes below 1, usually remove or keep at 1. Let's remove for now or better Keep at 1 and use remove button for delete.
-                // Standard: if user clicks '-' at 1, nothing happens or remove.
-                // I will filter out if count < 1.
                 state.cart = state.cart.filter(item => item.product.id !== productId);
             } else {
                 const item = state.cart.find(item => item.product.id === productId);

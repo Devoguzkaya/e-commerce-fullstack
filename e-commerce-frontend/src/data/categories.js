@@ -2,7 +2,6 @@ import card1Img from '../assets/bannercaramel.png';
 import card2Img from '../assets/bannerapple.png';
 import card3Img from '../assets/bennerhindi.png';
 
-// Sanki veritabanından gelen JSON buymuş gibi düşün
 export const categoriesData = [
     {
         id: 1,

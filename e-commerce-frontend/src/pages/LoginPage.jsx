@@ -11,31 +11,21 @@ const LoginPage = () => {
     const dispatch = useDispatch();
 
     const onSubmit = (data) => {
-        // Prepare Credentials
         const credentials = {
             email: data.email,
             password: data.password
         };
 
-        // Dispatch Thunk
         dispatch(loginUser(credentials))
             .unwrap()
             .then((res) => {
                 toast.success("Welcome back! Login successful.");
 
-                // Handle Remember Me - Save Token if checked
                 if (data.rememberMe && res.token) {
                     localStorage.setItem("token", res.token);
-                } else if (!data.rememberMe) {
-                    // Optional: Clear token if user explicitly unchecks? 
-                    // Usually we don't clear unless logout, but "Remember Me" implies persistence across sessions.
-                    // If not checked, maybe Session Storage or just Redux state (which is lost on refresh).
-                    // Task says: "save token to localStorage if remember me is checked!".
-                    // Implies if NOT checked, DO NOT save to localStorage.
-                    // So we do nothing (store in Redux is enough for current session).
                 }
 
-                navigate(-1); // Redirect to previous page (or Home if history is empty/same)
+                navigate(-1);
             })
             .catch((err) => {
                 console.error("Login error:", err);
@@ -58,7 +48,6 @@ const LoginPage = () => {
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-100">
                     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
 
-                        {/* Email */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Email</label>
                             <div className="mt-1">
@@ -74,7 +63,6 @@ const LoginPage = () => {
                             </div>
                         </div>
 
-                        {/* Password */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Password</label>
                             <div className="mt-1">
@@ -87,7 +75,6 @@ const LoginPage = () => {
                             </div>
                         </div>
 
-                        {/* Remember Me */}
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
                                 <input
@@ -108,7 +95,6 @@ const LoginPage = () => {
                             </div>
                         </div>
 
-                        {/* Submit Button */}
                         <div>
                             <button
                                 type="submit"

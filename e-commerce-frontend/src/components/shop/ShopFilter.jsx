@@ -2,19 +2,14 @@ import React from 'react';
 import { LayoutGrid, List, ChevronDown } from 'lucide-react';
 
 const ShopFilter = ({ viewMode, setViewMode, sort, setSort, filter, setFilter }) => {
-    // Helper to handle debounce could be here, but simpler to pass pure state loop
-    // Client wants "on state change", so direct onChange is fine for now
-
     return (
         <div className="bg-white py-6 mb-8">
             <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-4">
 
-                {/* Sol: Sonuç Bilgisi */}
                 <div className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">
                     Showing results
                 </div>
 
-                {/* Orta: Görünüm Seçenekleri */}
                 <div className="flex items-center gap-[15px]">
                     <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">
                         Views:
@@ -33,9 +28,7 @@ const ShopFilter = ({ viewMode, setViewMode, sort, setSort, filter, setFilter })
                     </button>
                 </div>
 
-                {/* Sağ: Filtreleme ve Sıralama */}
                 <div className="flex items-center gap-[15px]">
-                    {/* Filter Input */}
                     <input
                         type="text"
                         placeholder="Filter..."

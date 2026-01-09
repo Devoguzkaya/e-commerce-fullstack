@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api/axios';
 
-// Thunk to fetch categories
 export const fetchCategories = createAsyncThunk(
     'product/fetchCategories',
     async (_, { rejectWithValue }) => {
@@ -14,12 +13,10 @@ export const fetchCategories = createAsyncThunk(
     }
 );
 
-// Thunk to fetch products
 export const fetchProducts = createAsyncThunk(
     'product/fetchProducts',
     async (params, { rejectWithValue }) => {
         try {
-            // params can be { limit, offset, sort, filter, category }
             const response = await api.get('/products', { params });
             return response.data;
         } catch (error) {
@@ -28,7 +25,6 @@ export const fetchProducts = createAsyncThunk(
     }
 );
 
-// Thunk to fetch single product
 export const fetchProduct = createAsyncThunk(
     'product/fetchProduct',
     async (id, { rejectWithValue }) => {
@@ -48,8 +44,8 @@ const initialState = {
     limit: 25,
     offset: 0,
     filter: "",
-    fetchState: "NOT_FETCHED", // "NOT_FETCHED" | "FETCHING" | "FETCHED" | "FAILED"
-    activeProduct: null, // For Product Detail Page
+    fetchState: "NOT_FETCHED",
+    activeProduct: null,
 };
 
 const productSlice = createSlice({
@@ -80,11 +76,9 @@ const productSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // Categories
             .addCase(fetchCategories.fulfilled, (state, action) => {
                 state.categories = action.payload;
             })
-            // Products
             .addCase(fetchProducts.pending, (state) => {
                 state.fetchState = "FETCHING";
             })
@@ -96,7 +90,6 @@ const productSlice = createSlice({
             .addCase(fetchProducts.rejected, (state) => {
                 state.fetchState = "FAILED";
             })
-            // Single Product
             .addCase(fetchProduct.pending, (state) => {
                 state.fetchState = "FETCHING";
             })

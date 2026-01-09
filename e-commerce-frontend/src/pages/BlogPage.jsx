@@ -62,12 +62,10 @@ const mockPosts = [
 const BlogPage = () => {
     return (
         <div className="bg-white">
-            {/* Content Centered Container - Updated Padding to match Figma (160px ~ py-40) */}
             <div className="container mx-auto px-4 py-[50px] lg:py-[80px]">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[30px] justify-items-center">
                     {mockPosts.map((post) => (
                         <div key={post.id} className="w-full max-w-[348px] bg-white shadow-md hover:shadow-xl transition-shadow duration-300 flex flex-col group">
-                            {/* Image Area */}
                             <div className="relative w-full h-[300px] overflow-hidden">
                                 <img
                                     src={post.image}
@@ -79,26 +77,21 @@ const BlogPage = () => {
                                 </div>
                             </div>
 
-                            {/* Content Area */}
                             <div className="p-[25px] flex flex-col gap-[10px] flex-grow">
-                                {/* Tags */}
                                 <div className="flex items-center gap-[15px] text-[12px] leading-[16px]">
                                     <span className="text-[#8EC2F2] cursor-pointer hover:text-blue-500">Google</span>
                                     <span className="text-[#737373]">Trending</span>
                                     <span className="text-[#737373]">New</span>
                                 </div>
 
-                                {/* Title */}
                                 <h4 className="font-normal text-[20px] leading-[30px] text-[#252B42] group-hover:text-[#23A6F0] transition-colors cursor-pointer">
                                     {post.title}
                                 </h4>
 
-                                {/* Description */}
                                 <p className="font-normal text-[14px] leading-[20px] text-[#737373]">
                                     {post.description}
                                 </p>
 
-                                {/* Meta: Date & Comments */}
                                 <div className="flex items-center justify-between py-[15px] mt-auto">
                                     <div className="flex items-center gap-[5px]">
                                         <Clock size={16} className="text-[#23A6F0]" />
@@ -110,7 +103,6 @@ const BlogPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Learn More */}
                                 <div className="flex items-center gap-[10px] cursor-pointer font-bold text-[#737373] hover:text-[#23A6F0] transition-colors">
                                     <span className="text-[14px] leading-[24px]">Learn More</span>
                                     <ChevronRight size={16} className="text-[#23A6F0]" />

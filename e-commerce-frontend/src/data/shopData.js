@@ -4,7 +4,6 @@ import imgCard3 from '../assets/shoppage/card3.jpg';
 import imgCard4 from '../assets/shoppage/card4.jpg';
 import imgCard5 from '../assets/shoppage/card5.jpg';
 
-// Import Bestseller Product Covers from detailpage
 import cover1 from '../assets/detailpage/productcover1.png';
 import cover2 from '../assets/detailpage/productcover2.png';
 import cover3 from '../assets/detailpage/productcover3.png';
@@ -12,7 +11,6 @@ import cover4 from '../assets/detailpage/productcover4.png';
 import cover5 from '../assets/detailpage/productcover5.png';
 import cover6 from '../assets/detailpage/productcover6.png';
 
-// Import Product Detail Images
 import yellowArmchair from '../assets/detailpage/yellowarmchair.jpg';
 import yellowArmchair2 from '../assets/detailpage/yellowarmchair2.jpg';
 import grayArmchair from '../assets/detailpage/grayarmchair.jpg';

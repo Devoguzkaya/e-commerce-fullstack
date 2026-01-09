@@ -8,10 +8,8 @@ const ProductTabs = () => {
 
     return (
         <div className="bg-white pb-[48px]">
-            {/* Tab Headers Section */}
             <div className="w-[73%] mx-auto">
                 <div className="flex justify-center items-center gap-8 pt-[24px] pb-[24px]">
-                    {/* Using the CSS Nav styles */}
                     <button
                         onClick={() => setActiveTab('Description')}
                         className={`font-semibold text-[14px] leading-[24px] tracking-[0.2px] p-[24px] ${activeTab === 'Description' ? 'text-[#737373] hover:text-[#252B42] font-semibold' : 'text-[#737373] font-bold'}`}
@@ -32,24 +30,18 @@ const ProductTabs = () => {
                         <span className="text-[#23856D] ml-2">(0)</span>
                     </button>
                 </div>
-                {/* Divider Line */}
                 <div className="w-full h-px bg-[#ECECEC] mb-[48px]" />
 
-                {/* Tab Content */}
                 <div className="animate-fade-in pb-[48px]">
-                    {/* Description Content (Grid Layout) */}
                     {activeTab === 'Description' && (
                         <div className="flex flex-col lg:flex-row gap-[30px]">
 
-                            {/* Column 1: Image with Shadow Layer */}
                             <div className="flex-1 w-full relative aspect-[332/392]">
-                                {/* Shadow Layer (Behind) */}
                                 <img
                                     src={pinkRoomShadow}
                                     alt=""
                                     className="absolute left-[5px] top-0 w-full h-full object-cover rounded-[5px] opacity-100 z-0"
                                 />
-                                {/* Main Image (Front) */}
                                 <div className="relative z-10 w-[95%] h-[97%] bg-[#f5f5f5] rounded-[5px] overflow-hidden ml-0">
                                     <img
                                         src={pinkRoom}
@@ -59,7 +51,6 @@ const ProductTabs = () => {
                                 </div>
                             </div>
 
-                            {/* Column 2: Text Description */}
                             <div className="flex-1 w-full flex flex-col gap-[30px]">
                                 <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42]">
                                     the quick fox jumps over
@@ -77,9 +68,7 @@ const ProductTabs = () => {
                                 </div>
                             </div>
 
-                            {/* Column 3: Lists */}
                             <div className="flex-1 w-full flex flex-col gap-[30px]">
-                                {/* Block 1 */}
                                 <div>
                                     <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[30px]">
                                         the quick fox jumps over
@@ -96,7 +85,6 @@ const ProductTabs = () => {
                                     </ul>
                                 </div>
 
-                                {/* Block 2 */}
                                 <div>
                                     <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[30px]">
                                         the quick fox jumps over

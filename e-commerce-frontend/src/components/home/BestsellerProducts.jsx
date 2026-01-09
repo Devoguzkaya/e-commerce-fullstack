@@ -2,7 +2,6 @@ import React from 'react';
 import { bestsellerProducts } from '../../data/homeData';
 
 const BestsellerProducts = () => {
-    // Figma görselinde 1 satır (4 ürün) var. Kullanıcı isteği üzerine 4'e düşürüldü.
     const products = bestsellerProducts.slice(0, 4);
 
     return (

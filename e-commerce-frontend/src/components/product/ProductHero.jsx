@@ -5,7 +5,6 @@ import { Star, Heart, ShoppingCart, Eye, ChevronLeft, ChevronRight } from 'lucid
 
 const ProductHero = ({ product }) => {
     const dispatch = useDispatch();
-    // API Adapter
     const images = product.images?.map(img => img.url) || ['https://via.placeholder.com/600'];
     const title = product.name || product.title;
     const desc = product.description;
@@ -13,12 +12,10 @@ const ProductHero = ({ product }) => {
     const stock = product.stock > 0 ? 'In Stock' : 'Out of Stock';
     const rating = product.rating || 0;
     const reviews = product.sell_count || 0;
-    // Mock colors if API doesn't provide
     const colors = product.colors || ['#23A6F0', '#23856D', '#E77C40', '#252B42'];
 
     const [activeImage, setActiveImage] = useState(images[0]);
 
-    // Update active image if product changes
     React.useEffect(() => {
         setActiveImage(images[0]);
     }, [product]);
@@ -40,16 +37,13 @@ const ProductHero = ({ product }) => {
             <div className="w-[73%] mx-auto">
                 <div className="flex flex-col lg:flex-row gap-[30px] items-start">
 
-                    {/* LEFT: Image Carousel (Fluid Width) */}
                     <div className="flex-1 w-full flex flex-col gap-4">
-                        {/* Main Image */}
                         <div className="w-full h-[300px] lg:h-[450px] rounded-[5px] overflow-hidden relative shadow-sm">
                             <img
                                 src={activeImage}
                                 alt={title}
                                 className="w-full h-full object-contain bg-white animate-fade-in transition-opacity duration-300"
                             />
-                            {/* Arrows */}
                             {images.length > 1 && (
                                 <>
                                     <button
@@ -68,7 +62,6 @@ const ProductHero = ({ product }) => {
                             )}
                         </div>
 
-                        {/* Thumbnails */}
                         <div className="flex items-center gap-[19px] overflow-x-auto pb-2">
                             {images.map((img, idx) => (
                                 <div
@@ -82,16 +75,13 @@ const ProductHero = ({ product }) => {
                         </div>
                     </div>
 
-                    {/* RIGHT: Product Info (Fluid Width) */}
                     <div className="flex-1 w-full pt-[11px] lg:px-[24px]">
                         <h4 className="font-normal text-[20px] leading-[30px] tracking-[0.2px] text-[#252B42] mb-[12px]">
                             {title}
                         </h4>
 
-                        {/* Rating */}
                         <div className="flex items-center gap-[10px] mb-[20px]">
                             <div className="flex items-center gap-[5px] text-[#F3CD03]">
-                                {/* Detailed Star Logic */}
                                 {[...Array(5)].map((_, i) => (
                                     <Star key={i} size={22} fill={i < Math.round(rating) ? "#F3CD03" : "none"} stroke="#F3CD03" strokeWidth={i < Math.round(rating) ? 0 : 2} />
                                 ))}
@@ -101,7 +91,6 @@ const ProductHero = ({ product }) => {
                             </span>
                         </div>
 
-                        {/* Price */}
                         <h5 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[5px]">
                             {price}
                         </h5>
@@ -110,21 +99,18 @@ const ProductHero = ({ product }) => {
                             <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#23A6F0]">{stock}</span>
                         </div>
 
-                        {/* Description */}
                         <p className="font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#858585] mb-[32px]">
                             {desc}
                         </p>
 
                         <hr className="border-[#BDBDBD] mb-[29px]" />
 
-                        {/* Colors */}
                         <div className="flex items-center gap-[10px] mb-[67px]">
                             {colors.map((color, idx) => (
                                 <div key={idx} className="w-[30px] h-[30px] rounded-full cursor-pointer hover:scale-110 transition-transform shadow-sm" style={{ backgroundColor: color }}></div>
                             ))}
                         </div>
 
-                        {/* Actions */}
                         <div className="flex items-center gap-[10px]">
                             <button
                                 onClick={() => dispatch(addToCart(product))}

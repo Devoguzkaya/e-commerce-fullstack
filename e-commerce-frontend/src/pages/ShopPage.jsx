@@ -10,7 +10,7 @@ import Clients from '../components/home/Clients';
 import { shopProducts } from '../data/shopData';
 
 export default function ShopPage() {
-    const { categoryId } = useParams(); // Get Category ID from URL
+    const { categoryId } = useParams();
     const dispatch = useDispatch();
     const { productList, total, fetchState } = useSelector(state => state.product);
 
@@ -20,12 +20,10 @@ export default function ShopPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const limit = 25;
 
-    // Reset Page on Filter Change
     useEffect(() => {
         setCurrentPage(1);
     }, [categoryId, sort, filter]);
 
-    // Fetch Products
     useEffect(() => {
         const timer = setTimeout(() => {
             const offset = (currentPage - 1) * limit;
@@ -42,21 +40,13 @@ export default function ShopPage() {
         return () => clearTimeout(timer);
     }, [dispatch, categoryId, sort, filter, currentPage]);
 
-    // Pagination Calculations
     const totalPages = Math.ceil(total / limit);
-    // Generate page numbers (simplified: show all or max 3-5? Let's show up to 3 for now or all if small)
-    // Dynamic pagination logic usually complex. I'll render simple [1, 2, 3 ... last] or just few around current.
-    // For this task, let's render all if < 7, otherwise condensed.
-    // Simple version: Just numbers.
+
     const pages = [];
     for (let i = 1; i <= totalPages; i++) {
         pages.push(i);
     }
 
-    // Client-side sorting removed; Backend handles it via 'sort' param in fetchProducts
-    // const sortedProducts = ...
-
-    // Handlers
     const handlePageChange = (page) => {
         if (page >= 1 && page <= totalPages) {
             setCurrentPage(page);
@@ -66,7 +56,6 @@ export default function ShopPage() {
 
     return (
         <div className="bg-white">
-            {/* 1. Header/Breadcrumb Area */}
             <div className="bg-white pb-8 pt-4">
                 <div className="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center">
                     <h2 className="font-bold text-[24px] leading-[32px] text-[#252B42]">Shop</h2>
@@ -78,13 +67,10 @@ export default function ShopPage() {
                 </div>
             </div>
 
-            {/* 2. Category Cards (5 Items) */}
             <ShopCategoryCards />
 
-            {/* 3. Filter Row & Product Grid */}
             <div className="container mx-auto px-4 pb-12">
 
-                {/* Filter Component */}
                 <ShopFilter
                     viewMode={viewMode}
                     setViewMode={setViewMode}
@@ -94,7 +80,6 @@ export default function ShopPage() {
                     setFilter={setFilter}
                 />
 
-                {/* Products Grid */}
                 {fetchState === 'FETCHING' ? (
                     <div className="flex justify-center items-center h-96">
                         <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
@@ -109,7 +94,6 @@ export default function ShopPage() {
                     </div>
                 )}
 
-                {/* Pagination */}
                 {totalPages > 1 && (
                     <div className="flex justify-center items-center rounded-[5px] border border-[#BDBDBD] bg-white w-fit mx-auto shadow-sm overflow-hidden mt-8">
                         <button
@@ -127,9 +111,7 @@ export default function ShopPage() {
                             Prev
                         </button>
 
-                        {/* Rendering limited pages to avoid overflow if pages > 10 */}
                         {pages.map(page => {
-                            // Show first, last, current, and neighbors
                             if (page === 1 || page === totalPages || (page >= currentPage - 1 && page <= currentPage + 1)) {
                                 return (
                                     <button
@@ -157,7 +139,6 @@ export default function ShopPage() {
                 )}
             </div>
 
-            {/* 4. Clients / Logos */}
             <div className="bg-white py-8">
                 <Clients />
             </div>

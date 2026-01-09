@@ -22,16 +22,12 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Auto Login Check
     const token = localStorage.getItem("token");
     if (token) {
-      // Set Header
       api.defaults.headers.common['Authorization'] = token;
-      // Verify
       dispatch(verifyToken());
     }
 
-    // Fetch Categories Globally
     dispatch(fetchCategories());
   }, [dispatch]);
 
@@ -42,7 +38,6 @@ function App() {
           <Route index element={<HomePage />} />
           <Route path="shop" element={<ShopPage />} />
           <Route path="shop/:gender/:categoryName/:categoryId" element={<ShopPage />} />
-          {/* SEO Friendly Product Route */}
           <Route path="shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" element={<ProductDetailPage />} />
           <Route path="product/:id" element={<ProductDetailPage />} />
           <Route path="cart" element={<ShoppingCartPage />} />

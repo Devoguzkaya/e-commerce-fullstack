@@ -2,7 +2,6 @@ import ProductCard from '../ProductCard';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const ProductBlock = ({ sectionData, products, reverse = false }) => {
-    // Tasarımda 6 ürün var
     const visibleProducts = products.slice(0, 6);
     const { title, menuItems, banner } = sectionData;
 

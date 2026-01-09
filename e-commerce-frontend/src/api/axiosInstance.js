@@ -25,7 +25,6 @@ api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            // Burada ileride logout dispatch edebiliriz
             console.warn("Unauthorized - 401");
         }
         return Promise.reject(error);

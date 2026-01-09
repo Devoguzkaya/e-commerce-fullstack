@@ -2,14 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Twitter, Linkedin } from 'lucide-react';
 
-// Hero Images
 import hero1 from '../assets/teampage/1.png';
 import hero2 from '../assets/teampage/2.png';
 import hero3 from '../assets/teampage/3.png';
 import hero4 from '../assets/teampage/4.png';
 import hero5 from '../assets/teampage/5.png';
 
-// Team Images
 import user1 from '../assets/teampage/team-1-user-1.jpg';
 import user2 from '../assets/teampage/team-1-user-2.jpg';
 import user3 from '../assets/teampage/team-1-user-3.jpg';
@@ -36,7 +34,6 @@ const teamMembers = [
 const TeamPage = () => {
     return (
         <div className="bg-white">
-            {/* Hero Section */}
             <div className="container mx-auto px-4 py-12 text-center">
                 <h5 className="font-['Montserrat'] font-bold text-[16px] leading-[24px] text-[#737373] mb-4">
                     WHAT WE DO
@@ -51,10 +48,8 @@ const TeamPage = () => {
                 </div>
             </div>
 
-            {/* Hero Images Grid */}
             <div className="container mx-auto px-0 md:px-0 max-w-[1440px]">
                 <div className="grid grid-cols-1 lg:grid-cols-[700px_1fr] gap-[10px] mb-20 h-auto lg:h-[530px]">
-                    {/* Big Image Left */}
                     <div className="h-[530px] lg:h-full w-full">
                         <img
                             src={hero1}
@@ -62,7 +57,6 @@ const TeamPage = () => {
                             className="w-full h-full object-cover lg:object-fill"
                         />
                     </div>
-                    {/* 2x2 Grid Right */}
                     <div className="grid grid-cols-2 gap-[10px] h-full">
                         <img src={hero2} className="w-full h-[260px] object-cover lg:object-fill" alt="Gallery 1" />
                         <img src={hero3} className="w-full h-[260px] object-cover lg:object-fill md:rounded-tr-lg" alt="Gallery 2" />
@@ -72,13 +66,11 @@ const TeamPage = () => {
                 </div>
             </div>
 
-            {/* Team Grid Section */}
             <div className="container mx-auto px-4 py-[112px]">
                 <h2 className="font-['Montserrat'] font-bold text-[40px] leading-[50px] text-center text-[#252B42] mb-[112px]">
                     Meet Our Team
                 </h2>
 
-                {/* Team Members Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-[30px] justify-items-center max-w-[1050px] mx-auto">
                     {teamMembers.map((member) => (
                         <div key={member.id} className="flex flex-col items-center w-[316px] h-[383px] bg-white">
@@ -107,7 +99,6 @@ const TeamPage = () => {
                 </div>
             </div>
 
-            {/* CTA Section */}
             <div className="container mx-auto px-4 py-[80px] text-center max-w-[1050px] flex flex-col items-center gap-[30px]">
                 <h2 className="font-['Montserrat'] font-bold text-[40px] leading-[50px] text-[#252B42] max-w-[550px]">
                     Start your 14 days free trial

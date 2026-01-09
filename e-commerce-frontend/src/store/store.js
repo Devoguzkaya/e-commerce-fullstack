@@ -1,11 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { createLogger } from 'redux-logger'; // Common import for redux-logger
+import { createLogger } from 'redux-logger';
 import clientReducer from './slices/clientSlice';
 import productReducer from './slices/productSlice';
 import shoppingCartReducer from './slices/shoppingCartSlice';
 
 const logger = createLogger({
-    // Optional configuration for logger
     collapsed: true,
 });
 

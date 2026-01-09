@@ -18,7 +18,6 @@ export default function ProductDetailPage() {
     const navigate = useNavigate();
     const { activeProduct, fetchState } = useSelector(state => state.product);
 
-    // Fetch Product Logic
     useEffect(() => {
         if (targetId) {
             dispatch(fetchProduct(targetId));
@@ -26,7 +25,6 @@ export default function ProductDetailPage() {
         }
     }, [targetId, dispatch]);
 
-    // Loading State
     if (fetchState === 'FETCHING' || !activeProduct) {
         return (
             <div className="min-h-screen flex justify-center items-center">
@@ -37,7 +35,6 @@ export default function ProductDetailPage() {
 
     return (
         <div className="bg-white">
-            {/* Breadcrumb */}
             <div className="bg-[#FAFAFA] py-6">
                 <div className="container mx-auto px-4 flex items-center gap-[15px]">
                     <button onClick={() => navigate(-1)} className="text-[#BDBDBD] hover:text-[#252B42] transition-colors">
@@ -51,13 +48,10 @@ export default function ProductDetailPage() {
                 </div>
             </div>
 
-            {/* Product Hero (Descriptive top section) */}
             <ProductHero product={activeProduct} />
 
-            {/* Tabs (Description, details, reviews) */}
             <ProductTabs />
 
-            {/* Bestseller Products Section */}
             <div className="bg-[#FAFAFA] py-12">
                 <div className="w-[73%] mx-auto">
                     <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[24px] uppercase text-center font-['Montserrat']">
@@ -68,7 +62,6 @@ export default function ProductDetailPage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[30px] justify-items-center">
                         {shopProducts.slice(0, 8).map((product) => (
                             <div key={product.id} className="bg-white flex flex-col items-center group shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 w-[239px] h-full">
-                                {/* Image Container: Fixed Height 280px per Figma */}
                                 <Link to={`/product/${product.id}`} className="w-full h-[280px] overflow-hidden relative block">
                                     <img
                                         src={product.image}
@@ -77,7 +70,6 @@ export default function ProductDetailPage() {
                                     />
                                 </Link>
 
-                                {/* Content: Padding 25px 25px 35px */}
                                 <div className="flex flex-col items-center justify-between flex-grow pt-[25px] px-[25px] pb-[35px] gap-[10px] w-full">
                                     <h5 className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#252B42] text-center font-['Montserrat']">
                                         {product.title}
@@ -100,7 +92,6 @@ export default function ProductDetailPage() {
                 </div>
             </div>
 
-            {/* Clients Logos */}
             <div className="bg-[#FAFAFA] py-8">
                 <Clients />
             </div>
@@ -108,4 +99,3 @@ export default function ProductDetailPage() {
         </div>
     );
 }
-

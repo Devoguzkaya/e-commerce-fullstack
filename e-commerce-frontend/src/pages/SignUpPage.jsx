@@ -1,35 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
-import { useNavigate, Link } from 'react-router-dom'; // Using react-router-dom v6/v7 hook
+import { useNavigate, Link } from 'react-router-dom';
 import api from '../api/axios';
 
 const SignUpPage = () => {
     const { register, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm({
-        mode: 'onBlur', // Validate on blur
+        mode: 'onBlur',
         defaultValues: {
-            role_id: '3', // Default to Customer (assuming 3 based on common patterns, but will verify with fetch) - Actually specs say "Customer should be selected by default". I'll default to the ID I find for "Customer". But initially I don't know the ID. I'll stick to 'customer' string or find correct ID after fetch.
-            // Specs say: "Selected role id should be assigned to role_id key".
-            // I will set defaultValues AFTER fetching roles or handle logic inside component.
+            role_id: '3',
         }
     });
 
     const [roles, setRoles] = useState([]);
     const navigate = useNavigate();
 
-    // Watch role_id to conditionally render Store fields
     const selectedRoleId = watch('role_id');
     const [isStore, setIsStore] = useState(false);
 
     useEffect(() => {
-        // Fetch Roles
         api.get('/roles')
             .then(res => {
                 setRoles(res.data);
-                // Find Customer role and set default if needed, or let user select.
-                // Specs: "Customer should be selected by default"
                 const customerRole = res.data.find(r => r.code === 'customer' || r.name === 'Customer');
-                // I'll wait to see API response structure, assuming standard id/name/code.
             })
             .catch(err => {
                 console.error("Error fetching roles:", err);
@@ -38,7 +31,6 @@ const SignUpPage = () => {
     }, []);
 
     useEffect(() => {
-        // Check if selected role is Store
         const storeRole = roles.find(r => String(r.id) === selectedRoleId);
         if (storeRole && (storeRole.code === 'store' || storeRole.name === 'Store')) {
             setIsStore(true);
@@ -49,7 +41,6 @@ const SignUpPage = () => {
 
 
     const onSubmit = (data) => {
-        // Prepare Payload
         let payload = {
             name: data.name,
             email: data.email,
@@ -69,7 +60,7 @@ const SignUpPage = () => {
         api.post('/signup', payload)
             .then(res => {
                 toast.success("Hesabınız oluşturuldu! Lütfen emailinizi kontrol ediniz.");
-                navigate(-1); // Redirect to previous page
+                navigate(-1);
             })
             .catch(err => {
                 console.error("Signup error:", err);
@@ -77,14 +68,9 @@ const SignUpPage = () => {
             });
     };
 
-    // Password Validation Regex
-    // Min 8 chars, numbers, lower, upper, special
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    // Tax No Pattern: TXXXXVXXXXXX (X is number)
     const taxNoRegex = /^T\d{4}V\d{6}$/;
-    // TR Phone: basic validation +90... or 05... - Simplest: ^(\+90|0)?5\d{9}$
     const phoneRegex = /^(\+90|0)?5\d{9}$/;
-    // IBAN: TR... 26 digits total usually. Start with TR.
     const ibanRegex = /^TR\d{24}$/;
 
     return (
@@ -102,7 +88,6 @@ const SignUpPage = () => {
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10 border border-gray-100">
                     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
 
-                        {/* Name */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Name</label>
                             <div className="mt-1">
@@ -115,7 +100,6 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        {/* Email */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Email</label>
                             <div className="mt-1">
@@ -131,7 +115,6 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        {/* Password */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Password</label>
                             <div className="mt-1">
@@ -150,7 +133,6 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        {/* Confirm Password */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Confirm Password</label>
                             <div className="mt-1">
@@ -170,7 +152,6 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        {/* Role Selection */}
                         <div>
                             <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Role</label>
                             <div className="mt-1">
@@ -186,12 +167,10 @@ const SignUpPage = () => {
                             </div>
                         </div>
 
-                        {/* STORE FIELDS (Conditional) */}
                         {isStore && (
                             <div className="space-y-6 pt-4 border-t border-gray-200">
                                 <h3 className="text-lg font-medium text-[#252B42] font-['Montserrat']">Store Details</h3>
 
-                                {/* Store Name */}
                                 <div>
                                     <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Store Name</label>
                                     <div className="mt-1">
@@ -204,7 +183,6 @@ const SignUpPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Store Phone */}
                                 <div>
                                     <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Store Phone</label>
                                     <div className="mt-1">
@@ -221,7 +199,6 @@ const SignUpPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Store Tax ID */}
                                 <div>
                                     <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Store Tax ID</label>
                                     <div className="mt-1">
@@ -238,7 +215,6 @@ const SignUpPage = () => {
                                     </div>
                                 </div>
 
-                                {/* Store Bank Account (IBAN) */}
                                 <div>
                                     <label className="block text-sm font-medium text-[#252B42] font-['Montserrat']">Store Bank Account (IBAN)</label>
                                     <div className="mt-1">
@@ -257,7 +233,6 @@ const SignUpPage = () => {
                             </div>
                         )}
 
-                        {/* Submit Button */}
                         <div>
                             <button
                                 type="submit"

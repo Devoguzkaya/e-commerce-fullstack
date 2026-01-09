@@ -14,7 +14,6 @@ const AddressFormModal = ({ isOpen, onClose, onSubmit, initialData }) => {
 
     useEffect(() => {
         if (isOpen && initialData) {
-            // Populate form if editing
             Object.keys(initialData).forEach(key => setValue(key, initialData[key]));
         } else {
             reset();
@@ -133,26 +132,21 @@ const OrderPage = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // Selectors
     const { user, addressList, creditCards } = useSelector(state => state.client);
     const { cart } = useSelector(state => state.shoppingCart);
 
-    // Local State
     const [modalOpen, setModalOpen] = useState(false);
     const [editingAddress, setEditingAddress] = useState(null);
     const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-    const [activeStep, setActiveStep] = useState(1); // 1: Address, 2: Payment
+    const [activeStep, setActiveStep] = useState(1);
     const [selectedCardId, setSelectedCardId] = useState(null);
     const [showCardForm, setShowCardForm] = useState(false);
 
-    // Totals logic
     const subtotal = cart.reduce((sum, item) => item.checked ? sum + (item.product.price * item.count) : sum, 0);
     const shippingCost = subtotal > 150 || subtotal === 0 ? 0 : 29.99;
     const grandTotal = subtotal + shippingCost;
 
-    // Effects
-    // Check Auth
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (!token) {
@@ -160,7 +154,6 @@ const OrderPage = () => {
         }
     }, [navigate, location]);
 
-    // Data Fetching
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
@@ -173,7 +166,6 @@ const OrderPage = () => {
         }
     }, [dispatch, activeStep, addressList.length]);
 
-    // Handlers
     const handleAddSubmit = (data) => {
         const action = editingAddress
             ? updateAddress({ ...editingAddress, ...data })
@@ -198,7 +190,6 @@ const OrderPage = () => {
     };
 
     const handleCardSubmit = (data) => {
-        // Prepare data types (month/year as number)
         const payload = { ...data, expire_month: Number(data.expire_month), expire_year: Number(data.expire_year) };
         dispatch(addCard(payload)).then(() => {
             dispatch(fetchCardList());
@@ -214,10 +205,6 @@ const OrderPage = () => {
 
         let cardData = {};
         if (showCardForm) {
-            // New Card logic - normally handled by form submit, but if user filled it and checks "Pay", we might grab logic?
-            // Actually, my design toggles. If form is open, they submit form to SAVE card first usually?
-            // Or "Pay with this card without saving".
-            // Let's assume user must SELECT a card (saved or just added).
             toast.error("Lütfen kartı önce kaydedin veya listeden bir kart seçin.");
             return;
         } else {
@@ -229,10 +216,10 @@ const OrderPage = () => {
             if (!card) return;
             cardData = {
                 card_no: card.card_no,
-                card_name: card.name_on_card || card.card_name, // API inconsistencies often occur
+                card_name: card.name_on_card || card.card_name,
                 card_expire_month: card.expire_month,
                 card_expire_year: card.expire_year,
-                card_ccv: 123 // Dummy CVV for saved cards as it's not stored
+                card_ccv: 123
             };
         }
 
@@ -252,7 +239,7 @@ const OrderPage = () => {
             await api.post('/order', payload);
             toast.success("Siparişiniz başarıyla alındı! Teşekkür ederiz.");
             dispatch(clearCart());
-            navigate("/"); // Redirect to Home or Success Page
+            navigate("/");
         } catch (error) {
             console.error(error);
             toast.error("Sipariş oluşturulurken bir hata oluştu.");
@@ -263,7 +250,6 @@ const OrderPage = () => {
         <div className="bg-[#FAFAFA] min-h-screen pb-12">
             <div className="container mx-auto px-4 py-8">
 
-                {/* Steps Header */}
                 <div className="flex gap-12 mb-8">
                     <div className={`flex-1 border-b-4 pb-4 cursor-pointer ${activeStep === 1 ? 'border-[#F27A1A]' : 'border-gray-200'} `} onClick={() => setActiveStep(1)}>
                         <h2 className={`${activeStep === 1 ? 'text-[#F27A1A]' : 'text-[#252B42]'} text-xl font-bold`}>1 Adres Bilgileri</h2>
@@ -276,7 +262,6 @@ const OrderPage = () => {
                     </div>
                 </div>
 
-                {/* Info Alert (Show only on Step 1) */}
                 {activeStep === 1 && (
                     <div className="bg-[#FFF4E6] border border-[#F27A1A] p-4 rounded-md flex items-center gap-3 mb-8 text-sm text-[#252B42]">
                         <span className="text-[#F27A1A] font-bold text-xl">i</span>
@@ -286,10 +271,8 @@ const OrderPage = () => {
 
                 <div className="flex flex-col lg:flex-row gap-8">
 
-                    {/* LEFT CONTENT */}
                     <div className="flex-1">
 
-                        {/* STEP 1: Address */}
                         {activeStep === 1 && (
                             <>
                                 <div className="flex justify-between items-center mb-4">
@@ -340,7 +323,6 @@ const OrderPage = () => {
                             </>
                         )}
 
-                        {/* STEP 2: Payment */}
                         {activeStep === 2 && (
                             <div className="bg-white border border-gray-200 rounded-lg p-6">
                                 <div className="flex items-center gap-2 mb-6 border-b pb-4">
@@ -349,7 +331,6 @@ const OrderPage = () => {
                                 </div>
 
                                 <div className="flex flex-col md:flex-row gap-8">
-                                    {/* Left: Cards List */}
                                     <div className="flex-1">
                                         <div className="flex justify-between items-center mb-4">
                                             <h4 className="font-bold text-[#252B42]">Kart Bilgileri</h4>
@@ -392,7 +373,6 @@ const OrderPage = () => {
                                         )}
                                     </div>
 
-                                    {/* Right: Installments (Mock) */}
                                     <div className="w-full md:w-[300px] bg-gray-50 p-4 rounded border border-gray-200 h-fit">
                                         <h4 className="font-bold text-[#252B42] mb-2">Taksit Seçenekleri</h4>
                                         <p className="text-xs text-[#737373] mb-4">Kartınıza uygun taksit seçeneğini seçiniz</p>
@@ -419,7 +399,6 @@ const OrderPage = () => {
                         )}
                     </div>
 
-                    {/* RIGHT: Order Summary */}
                     <div className="w-full lg:w-[300px] flex flex-col gap-4">
 
                         <div className="bg-white p-5 rounded-lg shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-[#E6E6E6] sticky top-4">
@@ -472,7 +451,6 @@ const OrderPage = () => {
                 </div>
             </div>
 
-            {/* Modal */}
             <AddressFormModal
                 isOpen={modalOpen}
                 onClose={() => setModalOpen(false)}
