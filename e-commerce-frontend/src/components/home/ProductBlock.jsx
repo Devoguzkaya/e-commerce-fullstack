@@ -1,4 +1,4 @@
-import ProductCard from '../ProductCard';
+import ShopProductCard from '../shop/ShopProductCard';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
 
 const ProductBlock = ({ sectionData, products, reverse = false }) => {
@@ -54,7 +54,9 @@ const ProductBlock = ({ sectionData, products, reverse = false }) => {
 
                         <div className="flex flex-wrap justify-between gap-y-10">
                             {visibleProducts.map((product) => (
-                                <ProductCard key={product.id} product={product} />
+                                <div key={product.id} className="w-[45%] md:w-[30%]">
+                                    <ShopProductCard product={product} />
+                                </div>
                             ))}
                         </div>
 

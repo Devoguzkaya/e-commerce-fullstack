@@ -1,8 +1,20 @@
-import React from 'react';
-import { bestsellerProducts } from '../../data/homeData';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../../store/slices/productSlice';
+import ShopProductCard from '../shop/ShopProductCard';
 
 const BestsellerProducts = () => {
-    const products = bestsellerProducts.slice(0, 4);
+    const dispatch = useDispatch();
+    const productList = useSelector(state => state.product.productList);
+    const fetchState = useSelector(state => state.product.fetchState);
+
+    // Bestseller için en yüksek puanlı 8 ürünü çekelim
+    useEffect(() => {
+        dispatch(fetchProducts({ limit: 8, sort: 'rating:desc' }));
+    }, [dispatch]);
+
+    // Sadece ilk 8 ürünü göster (API'dan zaten limitli istedik ama garanti olsun)
+    const products = productList.slice(0, 8);
 
     return (
         <section className="bg-[#FAFAFA] py-12 flex justify-center">
@@ -15,35 +27,18 @@ const BestsellerProducts = () => {
                     <div className="w-full h-[2px] bg-[#ECECEC]"></div>
                 </div>
 
-                <div className="w-full max-w-[1049px] flex flex-wrap justify-center md:justify-start gap-[30px]">
-                    {products.map((product) => (
-                        <div key={product.id} className="w-[238px] flex flex-col bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                            <div className="w-full h-[280px] relative overflow-hidden">
-                                <img
-                                    src={product.image}
-                                    className="absolute inset-0 w-full h-full object-cover"
-                                    alt={product.title}
-                                />
-                            </div>
-
-                            <div className="p-[25px] flex flex-col gap-2.5 items-start">
-                                <h5 className="font-bold text-[16px] leading-[24px] text-[#252B42]">
-                                    {product.title}
-                                </h5>
-                                <span className="font-bold text-[14px] leading-[24px] text-[#737373]">
-                                    {product.category}
-                                </span>
-                                <div className="flex gap-[5px]">
-                                    <span className="font-bold text-[16px] leading-[24px] text-[#BDBDBD]">
-                                        {product.price}
-                                    </span>
-                                    <span className="font-bold text-[16px] leading-[24px] text-[#23856D]">
-                                        {product.salePrice}
-                                    </span>
-                                </div>
-                            </div>
+                <div className="w-full max-w-[1049px] grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-[30px]">
+                    {fetchState === 'FETCHING' ? (
+                        <div className="col-span-4 flex justify-center py-10">
+                            <div className="w-12 h-12 border-4 border-blue-200 border-t-blue-500 rounded-full animate-spin"></div>
                         </div>
-                    ))}
+                    ) : (
+                        products.map((product) => (
+                            <div key={product.id} className="flex justify-center">
+                                <ShopProductCard product={product} />
+                            </div>
+                        ))
+                    )}
                 </div>
 
             </div>

@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { ChevronRight, ChevronLeft } from 'lucide-react';
-import heroImage from '../../assets/shop-hero-3-product-slide-2.jpg';
+import heroImage1 from '../../assets/shoppage/hero_slide_1.png';
+import heroImage2 from '../../assets/shoppage/hero_slide_2.png';
 
 const slides = [
     {
         id: 1,
-        image: heroImage,
-        title: "GROCERIES DELIVERY",
+        image: heroImage1,
+        title: "NEW COLLECTION",
         subtitle: "We know how large objects will act, but things on a small scale just do not act that way.",
-        buttonText: "Start Now"
+        buttonText: "Shop Now"
     },
     {
         id: 2,
-        image: heroImage,
-        title: "FRESH & ORGANIC",
-        subtitle: "Farm fresh products delivered directly to your doorstep with love and care.",
-        buttonText: "Order Now"
+        image: heroImage2,
+        title: "SUMMER 2025",
+        subtitle: "New season styles arrived with premium quality and best prices.",
+        buttonText: "Shop Now"
     }
 ];
 
@@ -39,27 +40,25 @@ const HeroSlider = () => {
                     className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${index === currentSlide ? 'opacity-100 z-10' : 'opacity-0 z-0'
                         }`}
                 >
-                    <div className="absolute inset-0 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${slide.image})` }}>
-                        <div className="absolute inset-0 bg-[#A91A1A]/10 mix-blend-multiply"></div>
+                    <div className="absolute inset-0 bg-no-repeat bg-right bg-contain md:bg-[length:auto_90%] origin-right lg:origin-center z-0"
+                        style={{ backgroundImage: `url(${slide.image})`, backgroundPosition: 'right bottom' }}>
                     </div>
 
-                    <div className="relative h-full flex items-center justify-center text-center text-white">
-                        <div className="container mx-auto px-4">
-                            <div className="flex flex-col items-center justify-center max-w-4xl mx-auto space-y-8">
+                    <div className="relative h-full flex items-center justify-start text-left text-white z-10">
+                        <div className="container mx-auto px-4 md:px-12">
+                            <div className="flex flex-col items-start justify-center max-w-2xl space-y-8 pl-4 lg:pl-16">
                                 <div className="space-y-6">
-                                    <h1 className="text-4xl md:text-6xl font-black tracking-wide leading-tight drop-shadow-lg">
-                                        {slide.title.split(' ').map((word, i) => (
-                                            <React.Fragment key={i}>
-                                                {word} <br className={`${i === 0 ? 'hidden md:block' : 'hidden'}`} />
-                                            </React.Fragment>
-                                        ))}
+                                    <h5 className="font-bold text-base tracking-wider uppercase text-[#23A6F0] mb-4">
+                                        SUMMER 2025
+                                    </h5>
+                                    <h1 className="text-4xl md:text-6xl lg:text-7xl font-black tracking-wide leading-tight drop-shadow-xl uppercase">
+                                        {slide.title}
                                     </h1>
-                                    <h4 className="text-lg md:text-xl font-medium text-gray-100 max-w-xl mx-auto leading-relaxed drop-shadow-md">
+                                    <h4 className="text-lg md:text-xl font-normal text-gray-200 max-w-lg leading-relaxed">
                                         {slide.subtitle}
                                     </h4>
-                                    <div className="pt-4">
-                                        <button className="bg-primary hover:bg-blue-600 text-white font-bold py-4 px-10 rounded-[5px] text-lg transition-transform hover:scale-105 shadow-xl">
+                                    <div className="pt-8">
+                                        <button className="bg-[#2DC071] hover:bg-[#23A6F0] text-white font-bold py-4 px-12 rounded-[5px] text-xl transition-all hover:scale-105 shadow-2xl uppercase tracking-wider">
                                             {slide.buttonText}
                                         </button>
                                     </div>
@@ -83,13 +82,12 @@ const HeroSlider = () => {
                 <ChevronRight className="w-12 h-12 text-white opacity-80 hover:opacity-100" />
             </button>
 
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex z-20">
+            <div className="absolute bottom-12 left-12 hidden md:flex z-20 gap-3">
                 {slides.map((_, index) => (
                     <div
                         key={index}
                         onClick={() => setCurrentSlide(index)}
-                        className={`w-12 h-2 shadow-md cursor-pointer transition-colors duration-300 ${index === currentSlide ? 'bg-white' : 'bg-white/50 hover:bg-white/80'
-                            }`}
+                        className={`w-16 h-[3px] cursor-pointer transition-all duration-300 ${index === currentSlide ? 'bg-[#2DC071]' : 'bg-white/50 hover:bg-white'}`}
                     ></div>
                 ))}
             </div>

@@ -21,7 +21,7 @@ const ShopProductCard = ({ product }) => {
     if (category) {
         const gender = category.code.startsWith('k:') ? 'kadin' : 'erkek';
         const categoryName = slugify(category.title);
-        const productName = slugify(product.name || product.title);
+        const productName = slugify(product.name || product.title || 'product');
         url = `/shop/${gender}/${categoryName}/${category.id}/${productName}/${product.id}`;
     }
 

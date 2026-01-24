@@ -1,16 +1,60 @@
-# React + Vite
+# E-Commerce Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A comprehensive full-stack e-commerce application demonstrating modern web development practices. This project features a responsive frontend built with React and integrates robust state management for a seamless user experience.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The application simulates a real-world shopping platform where users can browse products, manage their cart, and complete orders. It emphasizes performance, scalable architecture, and clean code principles.
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Frontend Framework:** React (Vite)
+- **State Management:** Redux Toolkit
+- **Styling:** Tailwind CSS
+- **Routing:** React Router DOM
+- **Forms & Validation:** React Hook Form
+- **API Client:** Axios
 
-## Expanding the ESLint configuration
+## Key Features
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Authentication:** Token-based authentication with persistent sessions.
+- **Product Management:** Dynamic product listing with filtering, sorting, and pagination.
+- **Shopping Cart:** Client-side cart logic with real-time updates.
+- **Checkout Flow:** Integrated address management and payment simulation.
+- **Responsive Design:** Mobile-first approach ensuring compatibility across devices.
+
+## Local Development
+
+To run this project locally, follow these steps:
+
+1. **Clone the repository**
+
+    ```bash
+    git clone https://github.com/Devoguzkaya/e-commerce-fullstack.git
+    cd e-commerce-frontend
+    ```
+
+2. **Install dependencies**
+
+    ```bash
+    npm install
+    ```
+
+3. **Start the development server**
+
+    ```bash
+    npm run dev
+    ```
+
+## Project Structure
+
+The project follows a modular structure for maintainability:
+
+- `src/components`: Reusable UI elements.
+- `src/pages`: Main application views.
+- `src/store`: Redux slices and global store configuration.
+- `src/api`: API configuration and interceptors.
+- `src/layout`: Main layout wrappers (Header, Footer).
+
+---
+Developed by Oguzhan.

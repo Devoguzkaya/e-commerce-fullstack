@@ -10,9 +10,9 @@ const CategoryCards = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                     {cards.map((card) => (
-                        <div key={card.id} className="bg-white h-[230px] relative shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
+                        <div key={card.id} className="bg-white h-[300px] relative shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden group">
 
-                            <div className="absolute inset-0 z-10 flex flex-col justify-center items-start pl-8 pr-32">
+                            <div className="absolute inset-y-0 left-0  flex flex-col justify-center items-start pl-6 md:pl-8 pr-2">
                                 <h6 className="font-normal text-sm text-[#737373] tracking-[0.2px] mb-2">
                                     {card.subtitle}
                                 </h6>
@@ -25,10 +25,13 @@ const CategoryCards = () => {
                             </div>
 
                             <div
-                                className="absolute right-0 w-full h-full bg-no-repeat bg-center transition-transform duration-500 group-hover:scale-105"
+                                className="absolute right-0 top-0 w-[60%] h-full  "
                                 style={{
                                     backgroundImage: `url(${card.image})`,
-                                    backgroundSize: 'contain'
+                                    backgroundSize: 'contain',
+                                    backgroundPosition: 'center',
+                                    backgroundRepeat: 'no-repeat',
+
                                 }}
                             ></div>
                         </div>

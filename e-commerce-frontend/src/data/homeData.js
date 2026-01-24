@@ -1,11 +1,12 @@
-import womanBurger from '../assets/womanburger.png';
-import caramelBg from '../assets/caramel1.png';
-import scooterImg from '../assets/bike.png';
-import meatPlate from '../assets/meat.png';
+import heroProduct1 from '../assets/shoppage/featured_product.png';
+import heroBg from '../assets/shoppage/card4.jpg';
 
-import roadImg from '../assets/road1.png';
-import carImg from '../assets/car1.png';
-import umbrellaImg from '../assets/umbrellas1.png';
+import popularHero from '../assets/shoppage/most_popular.png';
+import popularProduct from '../assets/shoppage/product12.png';
+
+import post1 from '../assets/shoppage/card1.jpg';
+import post2 from '../assets/shoppage/card2.jpg';
+import post3 from '../assets/shoppage/card3.jpg';
 
 import logoHooli from '../assets/hoolisvg.svg';
 import logoLyft from '../assets/lyftsvg.svg';
@@ -14,65 +15,69 @@ import logoAws from '../assets/awssvg.svg';
 import logoReddit from '../assets/redditsvg.svg';
 import logoRobinhood from '../assets/robinhoodsvg.svg';
 
-import product1 from '../assets/bestseller1.png';
-import product2 from '../assets/bestseller2.png';
-import product3 from '../assets/bestseller3.png';
-import product4 from '../assets/bestseller4.png';
+import product1 from '../assets/shoppage/product1.png';
+import product2 from '../assets/shoppage/product2.png';
+import product3 from '../assets/shoppage/product3.png';
+import product4 from '../assets/shoppage/product4.png';
+import product5 from '../assets/shoppage/product5.png';
+import product6 from '../assets/shoppage/product6.png';
+import product7 from '../assets/shoppage/product7.png';
+import product8 from '../assets/shoppage/product8.png';
 
-import furnitureBanner from '../assets/section2left.jpg';
-import donutBanner from '../assets/card-cover-5 (donut).jpg';
+import fashionBanner1 from '../assets/shoppage/asian_fashion.png';
+import fashionBanner2 from '../assets/shoppage/banner_sale.png';
 
 export const featuredProductData = {
-    sectionTitle: "MOST POPULAR",
+    sectionTitle: "SUMMER CLASSICS",
     description: "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
-    mainImage: womanBurger,
+    mainImage: heroProduct1,
     product: {
-        title: "English Department",
+        title: "Vita Classic Product",
         sales: "15 Sales",
         originalPrice: "$16.48",
         salePrice: "$6.48",
         colors: ["#23A6F0", "#23856D", "#E77C40", "#252B42"],
-        image: caramelBg
+        image: heroBg
     }
 };
 
 export const mostPopularData = {
-    heroImage: scooterImg,
+    heroImage: popularHero,
     header: "MOST POPULAR",
     description: "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
     product: {
-        image: meatPlate,
-        title: "English Department",
+        image: popularProduct,
+        title: "Neural Universe",
         sales: "15 Sales",
         originalPrice: "$16.48",
         salePrice: "$6.48",
         colors: ["#23A6F0", "#23856D", "#E77C40", "#252B42"],
     },
     features: [
-        "Easy to use",
-        "Long life to use",
-        "Student friendly",
-        "Unlimited support"
+        "Easy to wear",
+        "Trendy Design",
+        "Comfortable fit",
+        "Unlimited style"
     ]
 };
 
 export const bestsellerProducts = [
-    { id: 1, image: product1, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 2, image: product2, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 3, image: product3, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 4, image: product4, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 5, image: product1, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 6, image: product2, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 7, image: product3, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
-    { id: 8, image: product4, category: "English Department", title: "Graphic Design", price: "$16.48", salePrice: "$6.48" },
+    { id: 1, image: product1, category: "Men's Fashion", title: "Casual Wool Coat", price: "$120.00", salePrice: "$85.00" },
+    { id: 2, image: product2, category: "Women's Fashion", title: "Floral Summer Dress", price: "$90.00", salePrice: "$55.00" },
+    { id: 3, image: product3, category: "Accessories", title: "Classic Leather Bag", price: "$150.00", salePrice: "$110.00" },
+    { id: 4, image: product4, category: "Men's Fashion", title: "Denim Jacket", price: "$85.00", salePrice: "$60.00" },
+    { id: 5, image: product5, category: "Women's Fashion", title: "Stylized Scarf", price: "$35.00", salePrice: "$20.00" },
+    { id: 6, image: product6, category: "Footwear", title: "Canvas Sneakers", price: "$65.00", salePrice: "$45.00" },
+    { id: 7, image: product7, category: "Men's Fashion", title: "Cotton T-Shirt", price: "$40.00", salePrice: "$25.00" },
+    { id: 8, image: product8, category: "Women's Fashion", title: "Evening Gown", price: "$220.00", salePrice: "$180.00" },
 ];
 
 export const bestsellerSectionData = {
     title: "BESTSELLER PRODUCTS",
     menuItems: ["Men", "Women", "Accessories"],
     banner: {
-        image: furnitureBanner,
-        title: "FURNITURE",
+        image: fashionBanner1,
+        title: "ASIAN FASHION",
         subtitle: "5 Items"
     }
 };
@@ -81,8 +86,8 @@ export const furnitureSectionData = {
     title: "BESTSELLER PRODUCTS",
     menuItems: ["Men", "Women", "Accessories"],
     banner: {
-        image: donutBanner,
-        title: "FURNITURE",
+        image: fashionBanner2,
+        title: "SUMMER SALE",
         subtitle: "5 Items"
     }
 };
@@ -90,8 +95,8 @@ export const furnitureSectionData = {
 export const blogPosts = [
     {
         id: 1,
-        image: roadImg,
-        title: "Loudest à la Madison #1 (L'integral)",
+        image: post1,
+        title: "Trends in 2024",
         description: "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
         date: "22 April 2021",
         comments: "10 comments",
@@ -99,8 +104,8 @@ export const blogPosts = [
     },
     {
         id: 2,
-        image: carImg,
-        title: "Loudest à la Madison #1 (L'integral)",
+        image: post2,
+        title: "Best Fabrics",
         description: "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
         date: "22 April 2021",
         comments: "10 comments",
@@ -108,8 +113,8 @@ export const blogPosts = [
     },
     {
         id: 3,
-        image: umbrellaImg,
-        title: "Loudest à la Madison #1 (L'integral)",
+        image: post3,
+        title: "Sustainable Fashion",
         description: "We focus on ergonomics and meeting you where you work. It's only a keystroke away.",
         date: "22 April 2021",
         comments: "10 comments",

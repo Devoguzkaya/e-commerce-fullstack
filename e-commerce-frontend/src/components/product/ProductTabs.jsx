@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import pinkRoom from '../../assets/detailpage/pingroom.png';
-import pinkRoomShadow from '../../assets/detailpage/pinkroomshadow.png';
 
-const ProductTabs = () => {
+const ProductTabs = ({ product }) => {
     const [activeTab, setActiveTab] = useState('Description');
+    const image = product?.images?.[0]?.url || 'https://via.placeholder.com/400';
 
     return (
         <div className="bg-white pb-[48px]">
@@ -27,7 +26,7 @@ const ProductTabs = () => {
                         className={`font-bold text-[14px] leading-[24px] tracking-[0.2px] p-[24px] ${activeTab === 'Reviews' ? 'text-[#737373] hover:text-[#252B42]' : 'text-[#737373]'}`}
                     >
                         Reviews
-                        <span className="text-[#23856D] ml-2">(0)</span>
+                        <span className="text-[#23856D] ml-2">({product?.sell_count || 0})</span>
                     </button>
                 </div>
                 <div className="w-full h-px bg-[#ECECEC] mb-[48px]" />
@@ -36,34 +35,27 @@ const ProductTabs = () => {
                     {activeTab === 'Description' && (
                         <div className="flex flex-col lg:flex-row gap-[30px]">
 
-                            <div className="flex-1 w-full relative aspect-[332/392]">
+                            <div className="flex-1 w-full relative aspect-[332/392] rounded-[5px] overflow-hidden shadow-md">
                                 <img
-                                    src={pinkRoomShadow}
-                                    alt=""
-                                    className="absolute left-[5px] top-0 w-full h-full object-cover rounded-[5px] opacity-100 z-0"
+                                    src={image}
+                                    alt="Product Detail"
+                                    className="w-full h-full object-cover"
                                 />
-                                <div className="relative z-10 w-[95%] h-[97%] bg-[#f5f5f5] rounded-[5px] overflow-hidden ml-0">
-                                    <img
-                                        src={pinkRoom}
-                                        alt="Interior"
-                                        className="w-full h-full object-cover"
-                                    />
-                                </div>
                             </div>
 
                             <div className="flex-1 w-full flex flex-col gap-[30px]">
                                 <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42]">
-                                    the quick fox jumps over
+                                    Product Description
                                 </h3>
                                 <div className="flex flex-col gap-[20px]">
                                     <p className="font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#737373]">
-                                        Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
+                                        Discover the perfect blend of style and comfort with our latest collection. Designed for the modern individual, this product features high-quality materials that ensure durability and long-lasting wear.
                                     </p>
                                     <p className="font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#737373]">
-                                        Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
+                                        Whether you're dressing up for a special occasion or keeping it casual, this versatile piece adapts to your unique style. The attention to detail is evident in every stitch, providing you with a premium look and feel.
                                     </p>
                                     <p className="font-normal text-[14px] leading-[20px] tracking-[0.2px] text-[#737373]">
-                                        Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
+                                        Experience the difference with our sustainably sourced fabrics that are gentle on your skin and the environment. Elevate your wardrobe today with this timeless essential.
                                     </p>
                                 </div>
                             </div>
@@ -71,14 +63,19 @@ const ProductTabs = () => {
                             <div className="flex-1 w-full flex flex-col gap-[30px]">
                                 <div>
                                     <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[30px]">
-                                        the quick fox jumps over
+                                        Key Features
                                     </h3>
                                     <ul className="flex flex-col gap-[10px]">
-                                        {[1, 2, 3, 4].map((item) => (
-                                            <li key={item} className="flex items-center gap-[20px]">
+                                        {[
+                                            "Premium quality material",
+                                            "Modern and stylish design",
+                                            "Comfortable fit for all-day wear",
+                                            "Durable and long-lasting"
+                                        ].map((item, index) => (
+                                            <li key={index} className="flex items-center gap-[20px]">
                                                 <ChevronRight size={16} className="text-[#737373] min-w-[9px]" strokeWidth={3} />
                                                 <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">
-                                                    the quick fox jumps over the lazy dog
+                                                    {item}
                                                 </span>
                                             </li>
                                         ))}
@@ -87,14 +84,18 @@ const ProductTabs = () => {
 
                                 <div>
                                     <h3 className="font-bold text-[24px] leading-[32px] tracking-[0.1px] text-[#252B42] mb-[30px]">
-                                        the quick fox jumps over
+                                        Care Instructions
                                     </h3>
                                     <ul className="flex flex-col gap-[10px]">
-                                        {[1, 2, 3].map((item) => (
-                                            <li key={item} className="flex items-center gap-[20px]">
+                                        {[
+                                            "Machine wash cold",
+                                            "Do not bleach",
+                                            "Tumble dry low"
+                                        ].map((item, index) => (
+                                            <li key={index} className="flex items-center gap-[20px]">
                                                 <ChevronRight size={16} className="text-[#737373] min-w-[9px]" strokeWidth={3} />
                                                 <span className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373]">
-                                                    the quick fox jumps over the lazy dog
+                                                    {item}
                                                 </span>
                                             </li>
                                         ))}

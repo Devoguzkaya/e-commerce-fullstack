@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchProduct } from '../store/slices/productSlice';
+import { fetchProduct, fetchProducts } from '../store/slices/productSlice';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
 
-import { shopProducts } from '../data/shopData';
 import ProductHero from '../components/product/ProductHero';
 import ProductTabs from '../components/product/ProductTabs';
 import ProductCard from '../components/ProductCard';
@@ -16,7 +15,7 @@ export default function ProductDetailPage() {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { activeProduct, fetchState } = useSelector(state => state.product);
+    const { activeProduct, fetchState, productList } = useSelector(state => state.product);
 
     useEffect(() => {
         if (targetId) {
@@ -25,6 +24,13 @@ export default function ProductDetailPage() {
         }
     }, [targetId, dispatch]);
 
+    useEffect(() => {
+        // Eğer productList boşsa (direkt link ile gelindiyse) bestseller ürünleri çekelim
+        if (productList.length === 0) {
+            dispatch(fetchProducts({ limit: 8, sort: 'rating:desc' }));
+        }
+    }, [dispatch, productList.length]);
+
     if (fetchState === 'FETCHING' || !activeProduct) {
         return (
             <div className="min-h-screen flex justify-center items-center">
@@ -32,6 +38,9 @@ export default function ProductDetailPage() {
             </div>
         );
     }
+
+    // Bestseller listesi için productList'i kullanalım
+    const bestsellers = productList.slice(0, 8);
 
     return (
         <div className="bg-white">
@@ -50,7 +59,7 @@ export default function ProductDetailPage() {
 
             <ProductHero product={activeProduct} />
 
-            <ProductTabs />
+            <ProductTabs product={activeProduct} />
 
             <div className="bg-[#FAFAFA] py-12">
                 <div className="w-[73%] mx-auto">
@@ -60,29 +69,29 @@ export default function ProductDetailPage() {
                     <div className="w-full h-px bg-[#ECECEC] mb-[24px]" />
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-[30px] justify-items-center">
-                        {shopProducts.slice(0, 8).map((product) => (
+                        {bestsellers.map((product) => (
                             <div key={product.id} className="bg-white flex flex-col items-center group shadow-sm hover:shadow-md cursor-pointer transition-all duration-300 w-[239px] h-full">
                                 <Link to={`/product/${product.id}`} className="w-full h-[280px] overflow-hidden relative block">
                                     <img
-                                        src={product.image}
-                                        alt={product.title}
+                                        src={product.images?.[0]?.url || product.image}
+                                        alt={product.name || product.title}
                                         className="w-full h-full object-cover transform transition-transform duration-300"
                                     />
                                 </Link>
 
                                 <div className="flex flex-col items-center justify-between flex-grow pt-[25px] px-[25px] pb-[35px] gap-[10px] w-full">
-                                    <h5 className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#252B42] text-center font-['Montserrat']">
-                                        {product.title}
+                                    <h5 className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#252B42] text-center font-['Montserrat'] line-clamp-1">
+                                        {product.name || product.title}
                                     </h5>
-                                    <p className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373] text-center font-['Montserrat']">
-                                        {product.category || 'English Department'}
+                                    <p className="font-bold text-[14px] leading-[24px] tracking-[0.2px] text-[#737373] text-center font-['Montserrat'] line-clamp-1">
+                                        {product.description || product.category || 'English Department'}
                                     </p>
                                     <div className="flex justify-center gap-[5px] px-[3px] py-[5px]">
                                         <span className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#BDBDBD] font-['Montserrat']">
-                                            {product.price}
+                                            {typeof product.price === 'number' ? `$${product.price.toFixed(2)}` : product.price}
                                         </span>
                                         <span className="font-bold text-[16px] leading-[24px] tracking-[0.1px] text-[#23856D] font-['Montserrat']">
-                                            {product.salePrice}
+                                            {typeof product.price === 'number' ? `$${product.price.toFixed(2)}` : product.price}
                                         </span>
                                     </div>
                                 </div>
